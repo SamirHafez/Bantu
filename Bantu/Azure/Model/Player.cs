@@ -12,20 +12,14 @@ using Microsoft.WindowsAzure.Samples.Data.Services.Client;
 using Microsoft.WindowsAzure.Samples.Phone.Storage;
 using System.Runtime.Serialization;
 
-namespace Bantu.Model
+namespace Bantu.Azure.Model
 {
-    [DataContract]
     [DataServiceEntity]
     [EntitySet("Player")]
     public class Player : TableServiceEntity
     {
-        [DataMember]
         public string Name { get; set; }
-
-        [DataMember]
         public string Credential { get; set; }
-
-        [DataMember]
         public long Score { get; set; }
 
         public Player()

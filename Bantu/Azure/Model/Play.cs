@@ -11,7 +11,7 @@ using System.Windows.Shapes;
 using Microsoft.WindowsAzure.Samples.Data.Services.Client;
 using Microsoft.WindowsAzure.Samples.Phone.Storage;
 
-namespace Bantu.Model
+namespace Bantu.Azure.Model
 {
     [DataServiceEntity]
     [EntitySet("Play")]

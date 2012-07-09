@@ -1,118 +1,95 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
-using Bantu.Helpers;
-using Bantu.Model;
-using Microsoft.WindowsAzure.Samples.Phone.Storage;
 using Microsoft.Phone.Shell;
 using System.IO.IsolatedStorage;
 using System.Collections.ObjectModel;
+using Bantu.ViewModel;
+using Bantu.Azure;
 
 namespace Bantu
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        public static Player Player { get; set; }
-        public static ObservableCollection<Game> ActiveGames { get; set; }
-        private ObservableCollection<Game> OpenGames { get; set; }
+        public static PlayerVM Player { get; set; }
+        public static ObservableCollection<GameVM> Games { get; set; }
 
-        private int _currentGame;
-
-        private IsolatedStorageSettings _settings;
-        // Constructor
         public MainPage()
         {
             InitializeComponent();
+            DataContext = this;
 
-            //ModelHelpers.Reset();
-            ModelHelpers.CreateGame("lalala", null, null);
+            var settings = IsolatedStorageSettings.ApplicationSettings;
 
-            _settings = IsolatedStorageSettings.ApplicationSettings;
-            if (_settings.Contains("player"))
-                Player = _settings["player"] as Player;
+            if (settings.Contains("player"))
+                Player = settings["player"] as PlayerVM;
 
-            if (_settings.Contains("activeGames"))
-                ActiveGames = _settings["activeGames"] as ObservableCollection<Game>;
+            if (settings.Contains("games"))
+                Games = new ObservableCollection<GameVM>(settings["games"] as IEnumerable<GameVM>);
             else
-                ActiveGames = new ObservableCollection<Game>();
-
-            OpenGames = new ObservableCollection<Game>();
-
-            lbQuickPlay.ItemsSource = OpenGames;
-            lbActiveGames.ItemsSource = ActiveGames;
-            _currentGame = 0;
+                Games = new ObservableCollection<GameVM>();
         }
 
-        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
-        {
-            _settings["activeGames"] = ActiveGames.ToList();
-            base.OnBackKeyPress(e);
-        }
-
-        public void Setup(object sender, EventArgs e) 
+        public void Initialize(Object sender, EventArgs e)
         {
             if (Player == null)
+            {
                 NavigationService.Navigate(new Uri("/LoginRegisterPage.xaml", UriKind.Relative));
+                return;
+            }
 
             while (NavigationService.BackStack.Any())
                 NavigationService.RemoveBackEntry();
         }
 
-        public void SwitchPanoramaItem(object sender, EventArgs e)
+        public void GoToGame(Object sender, GestureEventArgs e)
         {
-            Panorama panorama = (Panorama)sender;
-            PanoramaItem panoramaItem = (PanoramaItem)(panorama.SelectedItem);
-            if (panoramaItem.Name.Equals("qp"))
-                LoadOpenGames(this, null);
-        }
+            var game = (GameVM)((FrameworkElement)e.OriginalSource).DataContext;
 
-        public void LoadOpenGames(object sender, EventArgs e) 
-        {
-            if (sender is PanoramaItem)
+            if (game.Client == null || (game.HostTurn && game.Host.Name != Player.Name) || (!game.HostTurn && game.Client.Name != Player.Name))
                 return;
 
-            SystemTray.ProgressIndicator.Text = "Finding available games";
-            SystemTray.ProgressIndicator.IsVisible = true;
-
-            ModelHelpers.OpenGames(og => Dispatcher.BeginInvoke(delegate() 
-            {
-                OpenGames.Clear();
-                foreach(Game game in og) OpenGames.Add(game);
-                SystemTray.ProgressIndicator.IsVisible = false;
-            }), () => Dispatcher.BeginInvoke(delegate() 
-            {
-                MessageBox.Show("Error loading games. Try again.");
-                SystemTray.ProgressIndicator.IsVisible = false;
-            }));
+            var index = Games.IndexOf(game);
+            NavigationService.Navigate(new Uri("/BantumiGamePage.xaml?game=" + index, UriKind.Relative));
         }
 
-        public void AcceptChallenge(object sender, GestureEventArgs e) 
+        public void CreateGame(Object sender, EventArgs e)
         {
-            SystemTray.ProgressIndicator.Text = "Accepting challenge";
             SystemTray.ProgressIndicator.IsVisible = true;
+            Context.CreateGame(Player.Name, game =>
+            {
+                Dispatcher.BeginInvoke(delegate()
+                {
+                    var settings = IsolatedStorageSettings.ApplicationSettings;
+                    Games.Add(new GameVM(game));
 
-            var game = (Game)((FrameworkElement)e.OriginalSource).DataContext;
-            ModelHelpers.JoinGame(Player.Name, game, g => Dispatcher.BeginInvoke(delegate() 
+                    if (settings.Contains("games"))
+                        settings["games"] = Games.ToArray();
+                    else
+                        settings.Add("games", Games.ToArray());
+                    SystemTray.ProgressIndicator.IsVisible = false;
+                });
+            }, () =>
             {
-                ActiveGames.Add(g);
-                _currentGame = ActiveGames.IndexOf(g);
-                SystemTray.ProgressIndicator.IsVisible = false;
-                NavigationService.Navigate(new Uri("/GamePage.xaml?game=" + _currentGame, UriKind.Relative));
-            }), g => Dispatcher.BeginInvoke(delegate() 
-            {
-                MessageBox.Show("This challenge has already been accepted by someone else. Try another one.");
-                OpenGames.Remove(g);
-                SystemTray.ProgressIndicator.IsVisible = false;
-            }));
+                Dispatcher.BeginInvoke(delegate()
+                {
+                    SystemTray.ProgressIndicator.IsVisible = false;
+                    MessageBox.Show("Failed to create game. Please try again.");
+                });
+            });
+        }
+
+        private void ResetState()
+        {
+            Context.Reset();
+
+            var settings = IsolatedStorageSettings.ApplicationSettings;
+
+            settings.Remove("player");
+            settings.Remove("games");
         }
     }
 }

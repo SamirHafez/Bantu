@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
-using Bantu.Helpers;
 using Microsoft.Phone.Shell;
 using System.IO.IsolatedStorage;
-using System.ComponentModel;
+using Bantu.Azure;
+using Bantu.ViewModel;
 
 namespace Bantu
 {
@@ -37,10 +29,10 @@ namespace Bantu
             var username = tbUsername.Text;
             var password = pbPassword.Password;
 
-            ModelHelpers.Login(username, password, player =>
+            Context.Login(username, password, player =>
             {
                 var settings = IsolatedStorageSettings.ApplicationSettings;
-                settings.Add("player", player);
+                settings.Add("player", new PlayerVM(player));
                 Dispatcher.BeginInvoke(delegate()
                 {
                     SystemTray.ProgressIndicator.IsVisible = false;
@@ -64,10 +56,10 @@ namespace Bantu
             var username = tbUsernameSign.Text;
             var password = pbPasswordSign.Password;
 
-            ModelHelpers.CreatePlayer(username, password, player =>
+            Context.CreatePlayer(username, password, player =>
             {
                 var settings = IsolatedStorageSettings.ApplicationSettings;
-                settings.Add("player", player);
+                settings.Add("player", new PlayerVM(player));
                 Dispatcher.BeginInvoke(delegate()
                 {
                     SystemTray.ProgressIndicator.IsVisible = false;
@@ -78,7 +70,7 @@ namespace Bantu
                 Dispatcher.BeginInvoke(delegate()
                 {
                     SystemTray.ProgressIndicator.IsVisible = false;
-                    MessageBox.Show("Signup failed. That username is unavailable.");
+                    MessageBox.Show("Signup failed. The selected username is unavailable.");
                 });
             });
         }

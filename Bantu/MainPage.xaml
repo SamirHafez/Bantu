@@ -7,30 +7,56 @@
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768" 
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="696" 
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
-    shell:SystemTray.IsVisible="True" Loaded="Setup">
+    shell:SystemTray.IsVisible="True" Loaded="Initialize">
 
     <shell:SystemTray.ProgressIndicator>
-        <shell:ProgressIndicator IsIndeterminate="true" IsVisible="false"/>
+        <shell:ProgressIndicator IsIndeterminate="true" IsVisible="False"></shell:ProgressIndicator>
     </shell:SystemTray.ProgressIndicator>
 
-    <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
-
-        <!--Panorama control-->
-        <controls:Panorama Title="bantu" SelectionChanged="SwitchPanoramaItem">
+        <controls:Panorama Title="bantu">
             <!--<controls:Panorama.Background>
                 <ImageBrush ImageSource="PanoramaBackground.png"/>
             </controls:Panorama.Background>-->
 
+            <controls:PanoramaItem Header="{Binding Player.Name}">
+                <ListBox Margin="0,0,-12,0">
+                    <StackPanel Margin="0,0,0,17" Width="432" Height="78">
+                        <TextBlock Text="random game" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+                        <TextBlock Text="Play against a random player" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,0,17" Width="432" Height="78">
+                        <TextBlock Text="defy a friend" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+                        <TextBlock Text="Play against a friend" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,0,17" Width="432" Height="78">
+                        <TextBlock Text="leaderboards" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+                        <TextBlock Text="Who's hot and who's not" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,0,17" Width="432" Height="78">
+                        <TextBlock Text="statistics" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+                        <TextBlock Text="Your playing statistics" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,0,17" Width="432" Height="78">
+                        <TextBlock Text="help" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+                        <TextBlock Text="How does Bantu works" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                    </StackPanel>
+                </ListBox>
+            </controls:PanoramaItem>
+
             <controls:PanoramaItem Header="active games">
-                <ListBox Name="lbActiveGames" Margin="0,0,-12,0">
+                <ListBox Margin="0,0,-12,0" ItemsSource="{Binding Games}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid Margin="0,0,0,17" Width="432">
+                            <Grid Margin="0,0,0,17" Width="432" Tap="GoToGame">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height=".7*"/>
                                     <RowDefinition Height=".3*"/>
@@ -43,31 +69,22 @@
                                         <ColumnDefinition Width="99"/>
                                     </Grid.ColumnDefinitions>
                                     <Rectangle Height="99" Grid.Row="0" Grid.Column="0" Fill="{StaticResource PhoneAccentBrush}"></Rectangle>
-                                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource PhoneTextExtraLargeStyle}" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ScoreHost}"></TextBlock>
-                                    <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource PhoneTextNormalStyle}" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding Host}"></TextBlock>
-                                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource PhoneTextNormalStyle}" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{Binding Client}"></TextBlock>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource PhoneTextExtraLargeStyle}" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Cups[6].Stones}"></TextBlock>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource PhoneTextNormalStyle}" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding Host.Name}"></TextBlock>
+                                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource PhoneTextNormalStyle}" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{Binding Client.Name}"></TextBlock>
                                     <Rectangle Height="99" Grid.Row="0" Grid.Column="3" Fill="{StaticResource PhoneAccentBrush}"></Rectangle>
-                                    <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource PhoneTextExtraLargeStyle}" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ScoreClient}"></TextBlock>
+                                    <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource PhoneTextExtraLargeStyle}" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Cups[13].Stones}"></TextBlock>
                                 </Grid>
-                                <TextBlock Grid.Row="1" Style="{StaticResource PhoneTextLargeStyle}" HorizontalAlignment="Center" Text="Your turn" Foreground="{StaticResource PhoneAccentBrush}"></TextBlock>
                             </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </controls:PanoramaItem>
-
-            <controls:PanoramaItem Name="qp" Header="quick play" GotFocus="LoadOpenGames">
-                <ListBox Name="lbQuickPlay" Margin="0,0,-12,0">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Margin="0,0,0,17" Width="432" Height="78"  Tap="AcceptChallenge">
-                                <TextBlock Text="{Binding Host}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
-                                <TextBlock Text="Tap to accept" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                            </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
             </controls:PanoramaItem>
         </controls:Panorama>
     </Grid>
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBarIconButton IconUri="/Icons/file.png" Text="Create Game" Click="CreateGame"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

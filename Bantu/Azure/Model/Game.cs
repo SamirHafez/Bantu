@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.WindowsAzure.Samples.Phone.Storage;
 using Microsoft.WindowsAzure.Samples.Data.Services.Client;
 
-namespace Bantu.Model
+namespace Bantu.Azure.Model
 {
     [DataServiceEntity]
     [EntitySet("Game")]
@@ -14,7 +14,7 @@ namespace Bantu.Model
         public string Host { get; set; }
         public string Client { get; set; }
 
-        public string Turn { get; set; }
+        public bool HostTurn { get; set; }
 
         public int ScoreHost { get; set; }
         public int ScoreClient { get; set; }
@@ -41,6 +41,7 @@ namespace Bantu.Model
         {
             Host = hostUsername;
             Client = string.Empty;
+            HostTurn = false;
 
             Host0 = Host1 = Host2 = Host3 = Host4 = Host5 = 4;
             Client0 = Client1 = Client2 = Client3 = Client4 = Client5 = 4;
