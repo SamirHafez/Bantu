@@ -13,6 +13,7 @@ using Bantu.Azure.Model;
 using Microsoft.WindowsAzure.Samples.Data.Services.Client;
 using System.Globalization;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Bantu.Azure
 {
@@ -88,6 +89,109 @@ namespace Bantu.Azure
 
             foundPlayers.Clear();
             foundPlayers.LoadAsync(uri);
+        }
+
+        public static void OpenGames(string username, Action<IEnumerable<Game>> success, Action failure, int amount = 10)
+        {
+            var context = TableClient.GetDataServiceContext();
+
+            var openGames = new DataServiceCollection<Game>(context);
+            openGames.LoadCompleted += (sender, e) =>
+            {
+                if (e.Error != null)
+                    failure();
+                else
+                    success(openGames.ToList());
+            };
+
+            var uri = new Uri(
+                string.Format(
+                CultureInfo.InvariantCulture,
+                "{0}/{1}?$top={2}&$filter=Host ne '{3}' and Client eq ''",
+                context.BaseUri,
+                GAME,
+                amount,
+                username),
+                UriKind.Absolute);
+
+            openGames.Clear();
+            openGames.LoadAsync(uri);
+        }
+
+        public static void GetGame(string gameId, Action<Game> success, Action failure)
+        {
+            var context = TableClient.GetDataServiceContext();
+
+            var games = new DataServiceCollection<Game>(context);
+            games.LoadCompleted += (sender, e) =>
+            {
+                if (e.Error != null)
+                    failure();
+                else
+                    success(games.FirstOrDefault());
+            };
+
+            var uri = new Uri(
+                string.Format(
+                CultureInfo.InvariantCulture,
+                "{0}/{1}?$top=1&$filter=PartitionKey eq '{2}' and RowKey eq '{3}'",
+                context.BaseUri,
+                GAME,
+                GAME,
+                gameId),
+                UriKind.Absolute);
+
+            games.Clear();
+            games.LoadAsync(uri);
+        }
+
+        public static void JoinGame(string username, Game game, Action<Game> success, Action<Game> failure)
+        {
+            var context = TableClient.GetDataServiceContext();
+
+            var games = new DataServiceCollection<Game>(context);
+            games.LoadCompleted += (sender, e) =>
+            {
+                if (e.Error != null)
+                    failure(game);
+                else
+                {
+                    var g = games.ToList().FirstOrDefault();
+                    g.Client = username;
+                    context.UpdateObject(g);
+
+                    context.BeginSaveChanges(
+                        asyncResult =>
+                        {
+                            DataServiceResponse response;
+                            try
+                            {
+                                response = context.EndSaveChanges(asyncResult);
+
+                                //TODO CALL SUCCESS OR FAILURE BASED ON RESPONSE
+                                success(g);
+                            }
+                            catch (Exception)
+                            {
+                                failure(game);
+                            }
+                        }
+                        , null);
+                }
+            };
+
+            var uri = new Uri(
+                string.Format(
+                CultureInfo.InvariantCulture,
+                "{0}/{1}?$top=1&$filter=PartitionKey eq '{2}' and RowKey eq '{3}'",
+                context.BaseUri,
+                GAME,
+                game.PartitionKey,
+                game.RowKey),
+                UriKind.Absolute);
+
+            games.Clear();
+            games.LoadAsync(uri);
         }
 
         private static void CreateEntity<T>(T entity, string table, Action<T> success, Action failure)

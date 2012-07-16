@@ -33,8 +33,6 @@ namespace Bantu
         private void BindClient()
         {
             ccP1Score.DataContext = Game.Score(Game.Client);
-            ccP2Score.DataContext = Game.Score(Game.Host);
-
             ccP10.DataContext = Game.Get(Game.Client, 0);
             ccP11.DataContext = Game.Get(Game.Client, 1);
             ccP12.DataContext = Game.Get(Game.Client, 2);
@@ -42,6 +40,7 @@ namespace Bantu
             ccP14.DataContext = Game.Get(Game.Client, 4);
             ccP15.DataContext = Game.Get(Game.Client, 5);
 
+            ccP2Score.DataContext = Game.Score(Game.Host);
             ccP20.DataContext = Game.Get(Game.Host, 0);
             ccP21.DataContext = Game.Get(Game.Host, 1);
             ccP22.DataContext = Game.Get(Game.Host, 2);
@@ -53,8 +52,6 @@ namespace Bantu
         private void BindHost()
         {
             ccP1Score.DataContext = Game.Score(Game.Host);
-            ccP2Score.DataContext = Game.Score(Game.Client);
-
             ccP10.DataContext = Game.Get(Game.Host, 0);
             ccP11.DataContext = Game.Get(Game.Host, 1);
             ccP12.DataContext = Game.Get(Game.Host, 2);
@@ -62,6 +59,7 @@ namespace Bantu
             ccP14.DataContext = Game.Get(Game.Host, 4);
             ccP15.DataContext = Game.Get(Game.Host, 5);
 
+            ccP2Score.DataContext = Game.Score(Game.Client);
             ccP20.DataContext = Game.Get(Game.Client, 0);
             ccP21.DataContext = Game.Get(Game.Client, 1);
             ccP22.DataContext = Game.Get(Game.Client, 2);
@@ -74,6 +72,7 @@ namespace Bantu
         {
             var cup = ((CupControl)sender).DataContext as CupVM;
 
+            var turn = Game.HostTurn;
             if (Game.Play(cup))
             {
                 SystemTray.ProgressIndicator.IsVisible = true;
@@ -82,6 +81,8 @@ namespace Bantu
                     Dispatcher.BeginInvoke(delegate()
                     {
                         SystemTray.ProgressIndicator.IsVisible = false;
+                        if (Game.HostTurn != turn)
+                            NavigationService.GoBack();
                     });
                 }, () =>
                 {

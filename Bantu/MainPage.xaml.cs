@@ -22,10 +22,15 @@ namespace Bantu
             InitializeComponent();
             DataContext = this;
 
+            //ResetState();
+
             var settings = IsolatedStorageSettings.ApplicationSettings;
 
             if (settings.Contains("player"))
+            {
                 Player = settings["player"] as PlayerVM;
+                userPi.Header = Player.Name;
+            }
 
             if (settings.Contains("games"))
                 Games = new ObservableCollection<GameVM>(settings["games"] as IEnumerable<GameVM>);
@@ -48,7 +53,11 @@ namespace Bantu
         public void GoToGame(Object sender, GestureEventArgs e)
         {
             var game = (GameVM)((FrameworkElement)e.OriginalSource).DataContext;
+            OpenGame(game);
+        }
 
+        private void OpenGame(GameVM game)
+        {
             if (game.Client == null || (game.HostTurn && game.Host.Name != Player.Name) || (!game.HostTurn && game.Client.Name != Player.Name))
                 return;
 
@@ -66,10 +75,7 @@ namespace Bantu
                     var settings = IsolatedStorageSettings.ApplicationSettings;
                     Games.Add(new GameVM(game));
 
-                    if (settings.Contains("games"))
-                        settings["games"] = Games.ToArray();
-                    else
-                        settings.Add("games", Games.ToArray());
+                    settings["games"] = Games.ToArray();
                     SystemTray.ProgressIndicator.IsVisible = false;
                 });
             }, () =>
@@ -78,6 +84,64 @@ namespace Bantu
                 {
                     SystemTray.ProgressIndicator.IsVisible = false;
                     MessageBox.Show("Failed to create game. Please try again.");
+                });
+            });
+        }
+
+        public void Refresh(Object sender, EventArgs e)
+        {
+            //SystemTray.ProgressIndicator.IsVisible = true;
+            //Context.GetGame(Player.Name, game =>
+            //{
+            //    Dispatcher.BeginInvoke(delegate()
+            //    {
+            //        var settings = IsolatedStorageSettings.ApplicationSettings;
+            //        Games.Add(new GameVM(game));
+
+            //        settings["games"] = Games.ToArray();
+            //        SystemTray.ProgressIndicator.IsVisible = false;
+            //    });
+            //}, () =>
+            //{
+            //    Dispatcher.BeginInvoke(delegate()
+            //    {
+            //        SystemTray.ProgressIndicator.IsVisible = false;
+            //        MessageBox.Show("Failed to create game. Please try again.");
+            //    });
+            //});
+        }
+
+        public void JoinRandom(Object sender, EventArgs e)
+        {
+            SystemTray.ProgressIndicator.IsVisible = true;
+            Context.OpenGames(Player.Name, games =>
+            {
+                Context.JoinGame(Player.Name, games.First(), game =>
+                {
+                    Dispatcher.BeginInvoke(delegate()
+                    {
+                        var settings = IsolatedStorageSettings.ApplicationSettings;
+                        var gameVm = new GameVM(game);
+                        Games.Add(gameVm);
+
+                        settings["games"] = Games.ToArray();
+                        SystemTray.ProgressIndicator.IsVisible = false;
+                        OpenGame(gameVm);
+                    });
+                }, game =>
+                {
+                    Dispatcher.BeginInvoke(delegate()
+                    {
+                        SystemTray.ProgressIndicator.IsVisible = false;
+                        MessageBox.Show("Failed to join a challenge. Please try again.");
+                    });
+                });
+            }, () =>
+            {
+                Dispatcher.BeginInvoke(delegate()
+                {
+                    SystemTray.ProgressIndicator.IsVisible = false;
+                    MessageBox.Show("Failed to find an open challenge. Please try again.");
                 });
             });
         }
