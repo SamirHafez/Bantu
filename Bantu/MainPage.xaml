@@ -18,7 +18,7 @@
     </shell:SystemTray.ProgressIndicator>
 
     <Grid x:Name="LayoutRoot" Background="Transparent">
-        <controls:Panorama Title="bantu">
+        <controls:Panorama Title="bantu" SelectionChanged="Panorama_SelectionChanged">
             <!--<controls:Panorama.Background>
                 <ImageBrush ImageSource="PanoramaBackground.png"/>
             </controls:Panorama.Background>-->
@@ -26,8 +26,8 @@
             <controls:PanoramaItem Name="userPi">
                 <ListBox Margin="0,0,-12,0">
                     <StackPanel Margin="0,0,0,17" Width="432" Height="78" Tap="JoinRandom">
-                        <TextBlock Text="random game" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
-                        <TextBlock Text="Play against a random player" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}" Foreground="{StaticResource PhoneAccentBrush}"/>
+                        <TextBlock Text="quick play" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+                        <TextBlock Text="Accept a challenge from a random player" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}" Foreground="{StaticResource PhoneAccentBrush}"/>
                     </StackPanel>
 
                     <StackPanel Margin="0,0,0,17" Width="432" Height="78">
@@ -52,23 +52,30 @@
                 </ListBox>
             </controls:PanoramaItem>
 
-            <controls:PanoramaItem Header="active games">
+            <controls:PanoramaItem Header="active games" Name="agPi">
                 <ListBox Margin="0,0,-12,0" ItemsSource="{Binding Games}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="0,0,0,17" Width="432" Tap="GoToGame">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="99"/>
-                                    <ColumnDefinition Width=".5*"/>
-                                    <ColumnDefinition Width=".5*"/>
-                                    <ColumnDefinition Width="99"/>
-                                </Grid.ColumnDefinitions>
-                                <Rectangle Height="99" Grid.Column="0" Fill="{StaticResource PhoneAccentBrush}"></Rectangle>
-                                <TextBlock Grid.Column="0" Style="{StaticResource PhoneTextExtraLargeStyle}" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Cups[6].Stones}"></TextBlock>
-                                <TextBlock Grid.Column="1" Style="{StaticResource PhoneTextNormalStyle}" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding Host.Name}"></TextBlock>
-                                <TextBlock Grid.Column="2" Style="{StaticResource PhoneTextNormalStyle}" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{Binding Client.Name}"></TextBlock>
-                                <Rectangle Height="99" Grid.Column="3" Fill="{StaticResource PhoneAccentBrush}"></Rectangle>
-                                <TextBlock Grid.Column="3" Style="{StaticResource PhoneTextExtraLargeStyle}" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Cups[13].Stones}"></TextBlock>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height=".9*"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="99"/>
+                                        <ColumnDefinition Width=".5*"/>
+                                        <ColumnDefinition Width=".5*"/>
+                                        <ColumnDefinition Width="99"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Rectangle Height="99" Grid.Column="0" Fill="{StaticResource PhoneAccentBrush}"></Rectangle>
+                                    <TextBlock Grid.Column="0" Style="{StaticResource PhoneTextExtraLargeStyle}" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Cups[6].Stones}"></TextBlock>
+                                    <TextBlock Grid.Column="1" Style="{StaticResource PhoneTextNormalStyle}" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding Host.Name}"></TextBlock>
+                                    <TextBlock Grid.Column="2" Style="{StaticResource PhoneTextNormalStyle}" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{Binding Client.Name}"></TextBlock>
+                                    <Rectangle Height="99" Grid.Column="3" Fill="{StaticResource PhoneAccentBrush}"></Rectangle>
+                                    <TextBlock Grid.Column="3" Style="{StaticResource PhoneTextExtraLargeStyle}" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Cups[13].Stones}"></TextBlock>
+                                </Grid>
+                                <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Turn}"/>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

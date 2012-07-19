@@ -24,7 +24,7 @@ namespace Bantu
             Game = MainPage.Games[gameIndex];
             Player = MainPage.Player;
 
-            if (Game.Host == Player)
+            if (Game.Host.Name == Player.Name)
                 BindHost();
             else
                 BindClient();
@@ -78,6 +78,7 @@ namespace Bantu
                 SystemTray.ProgressIndicator.IsVisible = true;
                 Context.Play(Game.Id, Player.Name, cup.Index, play =>
                 {
+                    Game.LastUpdate = play.RowKey;
                     Dispatcher.BeginInvoke(delegate()
                     {
                         SystemTray.ProgressIndicator.IsVisible = false;

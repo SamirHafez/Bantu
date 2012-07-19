@@ -9,6 +9,7 @@ using System.IO.IsolatedStorage;
 using System.Collections.ObjectModel;
 using Bantu.ViewModel;
 using Bantu.Azure;
+using System.Windows.Controls;
 
 namespace Bantu
 {
@@ -90,25 +91,29 @@ namespace Bantu
 
         public void Refresh(Object sender, EventArgs e)
         {
-            //SystemTray.ProgressIndicator.IsVisible = true;
-            //Context.GetGame(Player.Name, game =>
-            //{
-            //    Dispatcher.BeginInvoke(delegate()
-            //    {
-            //        var settings = IsolatedStorageSettings.ApplicationSettings;
-            //        Games.Add(new GameVM(game));
-
-            //        settings["games"] = Games.ToArray();
-            //        SystemTray.ProgressIndicator.IsVisible = false;
-            //    });
-            //}, () =>
-            //{
-            //    Dispatcher.BeginInvoke(delegate()
-            //    {
-            //        SystemTray.ProgressIndicator.IsVisible = false;
-            //        MessageBox.Show("Failed to create game. Please try again.");
-            //    });
-            //});
+            foreach (var gameVM in Games)
+            {
+                SystemTray.ProgressIndicator.IsVisible = true;
+                Context.GamePlays(gameVM.Id, plays =>
+                {
+                    Dispatcher.BeginInvoke(delegate()
+                    {
+                        foreach (var play in plays)
+                        {
+                            gameVM.Play(play.Index);
+                            gameVM.LastUpdate = play.RowKey;
+                        }
+                        SystemTray.ProgressIndicator.IsVisible = false;
+                    });
+                }, () =>
+                {
+                    Dispatcher.BeginInvoke(delegate()
+                    {
+                        SystemTray.ProgressIndicator.IsVisible = false;
+                        MessageBox.Show("Failed to update game. Please try again.");
+                    });
+                }, gameVM.LastUpdate);
+            }
         }
 
         public void JoinRandom(Object sender, EventArgs e)
@@ -154,6 +159,14 @@ namespace Bantu
 
             settings.Remove("player");
             settings.Remove("games");
+        }
+
+        private void Panorama_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Panorama panorama = (Panorama)sender;
+            PanoramaItem panoramaItem = (PanoramaItem)(panorama.SelectedItem);
+            if (panoramaItem.Name.Equals("agPi"))
+                Refresh(this, null);
         }
     }
 }

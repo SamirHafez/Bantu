@@ -10,10 +10,11 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Bantu.Azure.Model;
 using System.Linq;
+using System.ComponentModel;
 
 namespace Bantu.ViewModel
 {
-    public class GameVM
+    public class GameVM : INotifyPropertyChanged
     {
         public string Id { get; set; }
 
@@ -47,7 +48,24 @@ namespace Bantu.ViewModel
             }
         }
 
-        public bool HostTurn { get; set; }
+        public string Turn { get { return HostTurn ? Host.Name : Client.Name; } }
+
+        public string LastUpdate { get; set; }
+
+        private bool _hostTurn;
+        public bool HostTurn 
+        {
+            get
+            {
+                return _hostTurn;
+            }
+            set
+            {
+                _hostTurn = value;
+                if(PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("Turn"));
+            }
+        }
 
         public CupVM[] Cups { get; set; }
 
@@ -71,6 +89,28 @@ namespace Bantu.ViewModel
             Host = new PlayerVM { Name = game.Host };
             Client = new PlayerVM { Name = game.Client };
 
+            Cups[0].Stones = game.Host0;
+            Cups[1].Stones = game.Host1;
+            Cups[2].Stones = game.Host2;
+            Cups[3].Stones = game.Host3;
+            Cups[4].Stones = game.Host4;
+            Cups[5].Stones = game.Host5;
+
+            Cups[7].Stones = game.Client0;
+            Cups[8].Stones = game.Client1;
+            Cups[9].Stones = game.Client2;
+            Cups[10].Stones = game.Client3;
+            Cups[11].Stones = game.Client4;
+            Cups[12].Stones = game.Client5;
+
+            HostTurn = game.HostTurn;
+
+            Cups.Last().Stones = game.ScoreHost;
+            Cups.Take(Cups.Length / 2).Last().Stones = game.ScoreClient;
+        }
+
+        public void Update(Game game) 
+        {
             Cups[0].Stones = game.Host0;
             Cups[1].Stones = game.Host1;
             Cups[2].Stones = game.Host2;
@@ -115,6 +155,11 @@ namespace Bantu.ViewModel
         public int CupCount(PlayerVM p)
         {
             return Cups.Where(c => c.Owner.Name == p.Name && !c.IsScore).Sum(c => c.Stones);
+        }
+
+        public bool Play(int idx) 
+        {
+            return Play(Cups[idx]);
         }
 
         public bool Play(CupVM cup)
@@ -179,5 +224,7 @@ namespace Bantu.ViewModel
                     cup.Stones = 0;
             }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

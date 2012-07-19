@@ -118,6 +118,59 @@ namespace Bantu.Azure
             openGames.LoadAsync(uri);
         }
 
+        public static void PlayerGames(string username, Action<IEnumerable<Game>> success, Action failure)
+        {
+            var context = TableClient.GetDataServiceContext();
+
+            var openGames = new DataServiceCollection<Game>(context);
+            openGames.LoadCompleted += (sender, e) =>
+            {
+                if (e.Error != null)
+                    failure();
+                else
+                    success(openGames.ToList());
+            };
+
+            var uri = new Uri(
+                string.Format(
+                CultureInfo.InvariantCulture,
+                "{0}/{1}?$filter=Host eq '{2}' or Client eq '{2}'",
+                context.BaseUri,
+                GAME,
+                username),
+                UriKind.Absolute);
+
+            openGames.Clear();
+            openGames.LoadAsync(uri);
+        }
+
+        public static void GamePlays(string gameId, Action<IEnumerable<Play>> success, Action failure, string rowKey = "0")
+        {
+            var context = TableClient.GetDataServiceContext();
+
+            var plays = new DataServiceCollection<Play>(context);
+            plays.LoadCompleted += (sender, e) =>
+            {
+                if (e.Error != null)
+                    failure();
+                else
+                    success(plays.ToList());
+            };
+
+            var uri = new Uri(
+                string.Format(
+                CultureInfo.InvariantCulture,
+                "{0}/{1}?$filter=GameId eq '{2}' and RowKey gt '{3}'",
+                context.BaseUri,
+                PLAY,
+                gameId,
+                rowKey),
+                UriKind.Absolute);
+
+            plays.Clear();
+            plays.LoadAsync(uri);
+        }
+
         public static void GetGame(string gameId, Action<Game> success, Action failure)
         {
             var context = TableClient.GetDataServiceContext();

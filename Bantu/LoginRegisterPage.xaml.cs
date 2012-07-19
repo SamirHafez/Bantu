@@ -6,6 +6,7 @@ using Microsoft.Phone.Shell;
 using System.IO.IsolatedStorage;
 using Bantu.Azure;
 using Bantu.ViewModel;
+using Bantu.Azure.Model;
 
 namespace Bantu
 {
@@ -31,13 +32,7 @@ namespace Bantu
 
             Context.Login(username, password, player =>
             {
-                var settings = IsolatedStorageSettings.ApplicationSettings;
-                settings.Add("player", new PlayerVM(player));
-                Dispatcher.BeginInvoke(delegate()
-                {
-                    SystemTray.ProgressIndicator.IsVisible = false;
-                    NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
-                });
+                SetPlayer(player);
             }, () =>
             {
                 Dispatcher.BeginInvoke(delegate()
@@ -58,13 +53,7 @@ namespace Bantu
 
             Context.CreatePlayer(username, password, player =>
             {
-                var settings = IsolatedStorageSettings.ApplicationSettings;
-                settings.Add("player", new PlayerVM(player));
-                Dispatcher.BeginInvoke(delegate()
-                {
-                    SystemTray.ProgressIndicator.IsVisible = false;
-                    NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
-                });
+                SetPlayer(player);
             }, () =>
             {
                 Dispatcher.BeginInvoke(delegate()
@@ -73,6 +62,21 @@ namespace Bantu
                     MessageBox.Show("Signup failed. The selected username is unavailable.");
                 });
             });
+        }
+
+        public void SetPlayer(Player player)
+        {
+            Context.PlayerGames(player.Name, games =>
+            {
+                Dispatcher.BeginInvoke(delegate()
+                {
+                    var settings = IsolatedStorageSettings.ApplicationSettings;
+                    settings.Add("player", new PlayerVM(player));
+                    settings.Add("games", games.Select(g => new GameVM(g)).ToList());
+                    SystemTray.ProgressIndicator.IsVisible = false;
+                    NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+                });
+            }, () => { });
         }
     }
 }
