@@ -14,6 +14,13 @@ using System.ComponentModel;
 
 namespace Bantu.ViewModel
 {
+    public enum GameState 
+    {
+        Host,
+        Client,
+        Finished
+    }
+
     public class GameVM : INotifyPropertyChanged
     {
         public string Id { get; set; }
@@ -50,7 +57,7 @@ namespace Bantu.ViewModel
 
         public string Turn { get { return HostTurn ? Host.Name : Client.Name; } }
 
-        public string LastUpdate { get; set; }
+        public DateTime LastUpdate { get; set; }
 
         private bool _hostTurn;
         public bool HostTurn 
@@ -107,6 +114,8 @@ namespace Bantu.ViewModel
 
             Cups.Last().Stones = game.ScoreHost;
             Cups.Take(Cups.Length / 2).Last().Stones = game.ScoreClient;
+
+            LastUpdate = game.Timestamp;
         }
 
         public void Update(Game game) 
@@ -129,6 +138,8 @@ namespace Bantu.ViewModel
 
             Cups.Last().Stones = game.ScoreHost;
             Cups.Take(Cups.Length / 2).Last().Stones = game.ScoreClient;
+
+            LastUpdate = game.Timestamp;
         }
 
         public CupVM Get(PlayerVM current, int cupIndex)
@@ -136,25 +147,9 @@ namespace Bantu.ViewModel
             return Cups.Where(c => c.Owner.Name == current.Name).ElementAt(cupIndex);
         }
 
-        public CupVM Next(CupVM cup)
-        {
-            return Cups.SingleOrDefault(c => c.Index == cup.Index + 1) ?? Cups.First();
-        }
-
-        public CupVM Oposite(CupVM cup)
-        {
-            var count = Cups.Count();
-            return Cups.Single(c => c.Index == (count - 2) - cup.Index);
-        }
-
         public CupVM Score(PlayerVM current)
         {
             return Cups.Single(c => c.IsScore && c.Owner.Name == current.Name);
-        }
-
-        public int CupCount(PlayerVM p)
-        {
-            return Cups.Where(c => c.Owner.Name == p.Name && !c.IsScore).Sum(c => c.Stones);
         }
 
         public bool Play(int idx) 
@@ -213,7 +208,7 @@ namespace Bantu.ViewModel
             return true;
         }
 
-        internal void Collect()
+        private void Collect()
         {
             var groups = Cups.Where(c => !c.IsScore).GroupBy(c => c.Owner);
 
@@ -223,6 +218,22 @@ namespace Bantu.ViewModel
                 foreach (var cup in group)
                     cup.Stones = 0;
             }
+        }
+
+        private CupVM Next(CupVM cup)
+        {
+            return Cups.SingleOrDefault(c => c.Index == cup.Index + 1) ?? Cups.First();
+        }
+
+        private CupVM Oposite(CupVM cup)
+        {
+            var count = Cups.Count();
+            return Cups.Single(c => c.Index == (count - 2) - cup.Index);
+        }
+
+        private int CupCount(PlayerVM p)
+        {
+            return Cups.Where(c => c.Owner.Name == p.Name && !c.IsScore).Sum(c => c.Stones);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

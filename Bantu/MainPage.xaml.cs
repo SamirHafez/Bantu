@@ -94,15 +94,11 @@ namespace Bantu
             foreach (var gameVM in Games)
             {
                 SystemTray.ProgressIndicator.IsVisible = true;
-                Context.GamePlays(gameVM.Id, plays =>
+                Context.GetGame(gameVM.Id, game =>
                 {
                     Dispatcher.BeginInvoke(delegate()
                     {
-                        foreach (var play in plays)
-                        {
-                            gameVM.Play(play.Index);
-                            gameVM.LastUpdate = play.RowKey;
-                        }
+                        gameVM.Update(game);
                         SystemTray.ProgressIndicator.IsVisible = false;
                     });
                 }, () =>
@@ -110,7 +106,7 @@ namespace Bantu
                     Dispatcher.BeginInvoke(delegate()
                     {
                         SystemTray.ProgressIndicator.IsVisible = false;
-                        MessageBox.Show("Failed to update game. Please try again.");
+                        //MessageBox.Show("Failed to update game. Please try again.");
                     });
                 }, gameVM.LastUpdate);
             }

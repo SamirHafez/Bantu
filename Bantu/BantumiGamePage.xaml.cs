@@ -73,12 +73,22 @@ namespace Bantu
             var cup = ((CupControl)sender).DataContext as CupVM;
 
             var turn = Game.HostTurn;
+
+            //var currentGameState = Game.State;
+            //Game.Play(cup);
+
+            //switch (Game.State) 
+            //{
+            //    case 
+            //}
+
+
             if (Game.Play(cup))
             {
                 SystemTray.ProgressIndicator.IsVisible = true;
-                Context.Play(Game.Id, Player.Name, cup.Index, play =>
+                Context.UpdateGame(Game, game =>
                 {
-                    Game.LastUpdate = play.RowKey;
+                    Game.LastUpdate = game.Timestamp;
                     Dispatcher.BeginInvoke(delegate()
                     {
                         SystemTray.ProgressIndicator.IsVisible = false;

@@ -14,6 +14,7 @@ using Microsoft.WindowsAzure.Samples.Data.Services.Client;
 using System.Globalization;
 using System.Linq;
 using System.Collections.Generic;
+using Bantu.ViewModel;
 
 namespace Bantu.Azure
 {
@@ -22,7 +23,6 @@ namespace Bantu.Azure
         private static readonly ICloudTableClient TableClient = CloudStorageContext.Current.Resolver.CreateCloudTableClient();
         private const string PLAYERS = "player";
         private const string GAME = "game";
-        private const string PLAY = "play";
 
         public static void Reset()
         {
@@ -30,9 +30,6 @@ namespace Bantu.Azure
             {
             });
             TableClient.DeleteTableIfExist(GAME, cor =>
-            {
-            });
-            TableClient.DeleteTableIfExist(PLAY, cor =>
             {
             });
         }
@@ -51,14 +48,7 @@ namespace Bantu.Azure
             CreateEntity(game, GAME, success, failure);
         }
 
-        public static void Play(string gameId, string username, int idx, Action<Play> success, Action failure)
-        {
-            var play = new Play(username, gameId, idx);
-
-            CreateEntity(play, PLAY, success, failure);
-        }
-
-        public static void Login(string username, string password, Action<Player> success, Action failure)
+        public static void ValidatePlayer(string username, string password, Action<Player> success, Action failure)
         {
             var context = TableClient.GetDataServiceContext();
 
@@ -144,34 +134,7 @@ namespace Bantu.Azure
             openGames.LoadAsync(uri);
         }
 
-        public static void GamePlays(string gameId, Action<IEnumerable<Play>> success, Action failure, string rowKey = "0")
-        {
-            var context = TableClient.GetDataServiceContext();
-
-            var plays = new DataServiceCollection<Play>(context);
-            plays.LoadCompleted += (sender, e) =>
-            {
-                if (e.Error != null)
-                    failure();
-                else
-                    success(plays.ToList());
-            };
-
-            var uri = new Uri(
-                string.Format(
-                CultureInfo.InvariantCulture,
-                "{0}/{1}?$filter=GameId eq '{2}' and RowKey gt '{3}'",
-                context.BaseUri,
-                PLAY,
-                gameId,
-                rowKey),
-                UriKind.Absolute);
-
-            plays.Clear();
-            plays.LoadAsync(uri);
-        }
-
-        public static void GetGame(string gameId, Action<Game> success, Action failure)
+        public static void GetGame(string gameId, Action<Game> success, Action failure, DateTime lastGet)
         {
             var context = TableClient.GetDataServiceContext();
 
@@ -181,17 +144,89 @@ namespace Bantu.Azure
                 if (e.Error != null)
                     failure();
                 else
-                    success(games.FirstOrDefault());
+                {
+                    var game = games.FirstOrDefault(g => g.Timestamp > lastGet);
+                    if (game != null)
+                        success(game);
+                    else
+                        failure();
+                }
             };
 
             var uri = new Uri(
                 string.Format(
                 CultureInfo.InvariantCulture,
-                "{0}/{1}?$top=1&$filter=PartitionKey eq '{2}' and RowKey eq '{3}'",
+                "{0}/{1}?$top=1&$filter=RowKey eq '{2}'",
                 context.BaseUri,
                 GAME,
-                GAME,
                 gameId),
+                UriKind.Absolute);
+
+            games.Clear();
+            games.LoadAsync(uri);
+        }
+
+        public static void UpdateGame(GameVM game, Action<Game> success, Action failure)
+        {
+            var context = TableClient.GetDataServiceContext();
+
+            var games = new DataServiceCollection<Game>(context);
+            games.LoadCompleted += (sender, e) =>
+            {
+                if (e.Error != null)
+                    failure();
+                else
+                {
+                    var g = games.ToList().FirstOrDefault();
+
+                    g.Client0 = game.Cups[7].Stones;
+                    g.Client1 = game.Cups[8].Stones;
+                    g.Client2 = game.Cups[9].Stones;
+                    g.Client3 = game.Cups[10].Stones;
+                    g.Client4 = game.Cups[11].Stones;
+                    g.Client5 = game.Cups[12].Stones;
+
+                    g.Host0 = game.Cups[0].Stones;
+                    g.Host1 = game.Cups[1].Stones;
+                    g.Host2 = game.Cups[2].Stones;
+                    g.Host3 = game.Cups[3].Stones;
+                    g.Host4 = game.Cups[4].Stones;
+                    g.Host5 = game.Cups[5].Stones;
+
+                    g.ScoreClient = game.Cups[6].Stones;
+                    g.ScoreHost = game.Cups[13].Stones;
+
+                    g.HostTurn = game.HostTurn;
+
+                    context.UpdateObject(g);
+
+                    context.BeginSaveChanges(
+                        asyncResult =>
+                        {
+                            DataServiceResponse response;
+                            try
+                            {
+                                response = context.EndSaveChanges(asyncResult);
+
+                                //TODO CALL SUCCESS OR FAILURE BASED ON RESPONSE
+                                success(g);
+                            }
+                            catch (Exception)
+                            {
+                                failure();
+                            }
+                        }
+                        , null);
+                }
+            };
+
+            var uri = new Uri(
+                string.Format(
+                CultureInfo.InvariantCulture,
+                "{0}/{1}?$top=1&$filter=RowKey eq '{2}'",
+                context.BaseUri,
+                GAME,
+                game.Id),
                 UriKind.Absolute);
 
             games.Clear();
@@ -236,10 +271,9 @@ namespace Bantu.Azure
             var uri = new Uri(
                 string.Format(
                 CultureInfo.InvariantCulture,
-                "{0}/{1}?$top=1&$filter=PartitionKey eq '{2}' and RowKey eq '{3}'",
+                "{0}/{1}?$top=1&$filter=RowKey eq '{2}'",
                 context.BaseUri,
                 GAME,
-                game.PartitionKey,
                 game.RowKey),
                 UriKind.Absolute);
 

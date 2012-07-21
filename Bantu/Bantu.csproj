@@ -75,7 +75,6 @@
     <Compile Include="Azure\Model\Game.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Azure\Model\Play.cs" />
     <Compile Include="Azure\StorageInitializer.cs" />
     <Compile Include="Azure\Context.cs" />
     <Compile Include="BantumiGamePage.xaml.cs">

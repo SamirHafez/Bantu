@@ -30,7 +30,7 @@ namespace Bantu
             var username = tbUsername.Text;
             var password = pbPassword.Password;
 
-            Context.Login(username, password, player =>
+            Context.ValidatePlayer(username, password, player =>
             {
                 SetPlayer(player);
             }, () =>
@@ -76,7 +76,13 @@ namespace Bantu
                     SystemTray.ProgressIndicator.IsVisible = false;
                     NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
                 });
-            }, () => { });
+            }, () => 
+            {
+                var settings = IsolatedStorageSettings.ApplicationSettings;
+                settings.Add("player", new PlayerVM(player));
+                SystemTray.ProgressIndicator.IsVisible = false;
+                NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+            });
         }
     }
 }
