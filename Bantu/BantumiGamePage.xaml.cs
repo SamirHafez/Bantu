@@ -5,6 +5,7 @@ using Bantu.ViewModel;
 using Bantu.Controls;
 using Microsoft.Phone.Shell;
 using Bantu.Azure;
+using Bantu.Azure.Model;
 
 namespace Bantu
 {
@@ -72,17 +73,7 @@ namespace Bantu
         {
             var cup = ((CupControl)sender).DataContext as CupVM;
 
-            var turn = Game.HostTurn;
-
-            //var currentGameState = Game.State;
-            //Game.Play(cup);
-
-            //switch (Game.State) 
-            //{
-            //    case 
-            //}
-
-
+            var currentGameState = Game.State;
             if (Game.Play(cup))
             {
                 SystemTray.ProgressIndicator.IsVisible = true;
@@ -92,8 +83,19 @@ namespace Bantu
                     Dispatcher.BeginInvoke(delegate()
                     {
                         SystemTray.ProgressIndicator.IsVisible = false;
-                        if (Game.HostTurn != turn)
-                            NavigationService.GoBack();
+                        switch (Game.State)
+                        {
+                            case GameState.Finished:
+                                break;
+                            case GameState.Client:
+                                if (currentGameState != GameState.Client)
+                                    NavigationService.GoBack();
+                                break;
+                            case GameState.Host:
+                                if (currentGameState != GameState.Host)
+                                    NavigationService.GoBack();
+                                break;
+                        }
                     });
                 }, () =>
                 {

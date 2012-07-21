@@ -196,7 +196,7 @@ namespace Bantu.Azure
                     g.ScoreClient = game.Cups[6].Stones;
                     g.ScoreHost = game.Cups[13].Stones;
 
-                    g.HostTurn = game.HostTurn;
+                    g.State = (int)game.State;
 
                     context.UpdateObject(g);
 

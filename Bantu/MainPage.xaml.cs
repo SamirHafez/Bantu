@@ -59,7 +59,7 @@ namespace Bantu
 
         private void OpenGame(GameVM game)
         {
-            if (game.Client == null || (game.HostTurn && game.Host.Name != Player.Name) || (!game.HostTurn && game.Client.Name != Player.Name))
+            if (game.Client == null || game.Turn != Player.Name)
                 return;
 
             var index = Games.IndexOf(game);
@@ -106,7 +106,6 @@ namespace Bantu
                     Dispatcher.BeginInvoke(delegate()
                     {
                         SystemTray.ProgressIndicator.IsVisible = false;
-                        //MessageBox.Show("Failed to update game. Please try again.");
                     });
                 }, gameVM.LastUpdate);
             }

@@ -14,7 +14,7 @@ using System.ComponentModel;
 
 namespace Bantu.ViewModel
 {
-    public enum GameState 
+    public enum GameState
     {
         Host,
         Client,
@@ -55,20 +55,20 @@ namespace Bantu.ViewModel
             }
         }
 
-        public string Turn { get { return HostTurn ? Host.Name : Client.Name; } }
+        public string Turn { get { return State == GameState.Host ? Host.Name : Client.Name; } }
 
         public DateTime LastUpdate { get; set; }
 
-        private bool _hostTurn;
-        public bool HostTurn 
+        private GameState _gameState;
+        public GameState State 
         {
             get
             {
-                return _hostTurn;
+                return _gameState;
             }
             set
             {
-                _hostTurn = value;
+                _gameState = value;
                 if(PropertyChanged != null)
                     PropertyChanged(this, new PropertyChangedEventArgs("Turn"));
             }
@@ -85,7 +85,7 @@ namespace Bantu.ViewModel
             Cups.Last().IsScore = Cups.Take(Cups.Length / 2).Last().IsScore = true;
             Cups.Last().Stones = Cups.Take(Cups.Length / 2).Last().Stones = 0;
 
-            HostTurn = false;
+            State = GameState.Client;
         }
 
         public GameVM(Game game)
@@ -110,7 +110,7 @@ namespace Bantu.ViewModel
             Cups[11].Stones = game.Client4;
             Cups[12].Stones = game.Client5;
 
-            HostTurn = game.HostTurn;
+            State = (GameState)game.State;
 
             Cups.Last().Stones = game.ScoreHost;
             Cups.Take(Cups.Length / 2).Last().Stones = game.ScoreClient;
@@ -134,7 +134,7 @@ namespace Bantu.ViewModel
             Cups[11].Stones = game.Client4;
             Cups[12].Stones = game.Client5;
 
-            HostTurn = game.HostTurn;
+            State = (GameState)game.State;
 
             Cups.Last().Stones = game.ScoreHost;
             Cups.Take(Cups.Length / 2).Last().Stones = game.ScoreClient;
@@ -160,8 +160,8 @@ namespace Bantu.ViewModel
         public bool Play(CupVM cup)
         {
             //GET THE CURRENT AND OPONENT PLAYERS
-            PlayerVM current = HostTurn ? Host : Client;
-            PlayerVM other = HostTurn ? Client : Host;
+            PlayerVM current = State == GameState.Host ? Host : Client;
+            PlayerVM other = State == GameState.Client ? Client : Host;
 
             if (cup.Owner.Name != current.Name) return false;
 
@@ -200,11 +200,12 @@ namespace Bantu.ViewModel
             if (CupCount(current) == 0 || CupCount(other) == 0)
             {
                 Collect();
+                State = GameState.Finished;
                 return true;
             }
 
             //SWITCH THE PLAY
-            HostTurn = !HostTurn;
+            State = State == GameState.Host ? GameState.Client : GameState.Host;
             return true;
         }
 

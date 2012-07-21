@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.WindowsAzure.Samples.Phone.Storage;
 using Microsoft.WindowsAzure.Samples.Data.Services.Client;
+using Bantu.ViewModel;
 
 namespace Bantu.Azure.Model
 {
@@ -14,7 +15,7 @@ namespace Bantu.Azure.Model
         public string Host { get; set; }
         public string Client { get; set; }
 
-        public bool HostTurn { get; set; }
+        public int State { get; set; }
 
         public int ScoreHost { get; set; }
         public int ScoreClient { get; set; }
@@ -37,11 +38,12 @@ namespace Bantu.Azure.Model
         {
         }
 
-        public Game(string hostUsername) : base("game", DateTime.Now.Ticks.ToString())
+        public Game(string hostUsername)
+            : base("game", DateTime.Now.Ticks.ToString())
         {
             Host = hostUsername;
             Client = string.Empty;
-            HostTurn = false;
+            State = (int)GameState.Client;
 
             Host0 = Host1 = Host2 = Host3 = Host4 = Host5 = 4;
             Client0 = Client1 = Client2 = Client3 = Client4 = Client5 = 4;
