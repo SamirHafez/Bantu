@@ -34,11 +34,7 @@ namespace Bantu
             }
 
             if (settings.Contains("games"))
-            {
                 Games = new ObservableCollection<GameVM>(settings["games"] as IEnumerable<GameVM>);
-                foreach (var game in Games.Where(g => g.State == GameState.Finished))
-                    Games.Remove(game);
-            }
             else
                 Games = new ObservableCollection<GameVM>();
         }
@@ -53,17 +49,22 @@ namespace Bantu
 
             while (NavigationService.BackStack.Any())
                 NavigationService.RemoveBackEntry();
+
+            var removables = new List<GameVM>();
+            removables.AddRange(Games.Where(g => g.State == GameState.Finished));
+            foreach (var removable in removables)
+                Games.Remove(removable);
         }
 
         public void GoToGame(Object sender, GestureEventArgs e)
         {
-            var game = (GameVM)((FrameworkElement)e.OriginalSource).DataContext;
+            var game = Games.First(g => g.Id == ((Button)sender).Tag);
             OpenGame(game);
         }
 
         private void OpenGame(GameVM game)
         {
-            if (game.Client == null || game.Turn != Player.Name)
+            if (game.Client == null || !game.IsMyTurn)
                 return;
 
             var index = Games.IndexOf(game);

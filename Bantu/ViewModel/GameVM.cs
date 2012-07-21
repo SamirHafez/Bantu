@@ -55,8 +55,6 @@ namespace Bantu.ViewModel
             }
         }
 
-        public string Turn { get { return State == GameState.Host ? Host.Name : Client.Name; } }
-
         public DateTime LastUpdate { get; set; }
 
         private GameState _gameState;
@@ -70,7 +68,7 @@ namespace Bantu.ViewModel
             {
                 _gameState = value;
                 if(PropertyChanged != null)
-                    PropertyChanged(this, new PropertyChangedEventArgs("Turn"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("IsMyTurn"));
             }
         }
 
@@ -85,6 +83,15 @@ namespace Bantu.ViewModel
 
                 return Score(Host).Stones > Score(Client).Stones ? Host : Client;
             } 
+        }
+
+        public bool IsMyTurn 
+        {
+            get 
+            {
+                var turn = State == GameState.Host ? Host.Name : Client.Name;
+                return turn == MainPage.Player.Name;
+            }
         }
 
         public GameVM()

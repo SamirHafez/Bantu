@@ -87,14 +87,15 @@ namespace Bantu
                         {
                             case GameState.Finished:
                                 var winner = Game.Winner;
+                                var score = Game.Score(winner).Stones;
                                 if (winner.Name == Player.Name)
                                 {
-                                    var score = Game.Score(Player).Stones;
-                                    MessageBox.Show("Congratulations, you won! Your account will be credited with " + score);
+                                    MessageBox.Show("Congratulations, you won! You have earned " + score + " points.");
                                     Context.ScorePlayer(Player.Name, score, player =>
                                     {
                                         Dispatcher.BeginInvoke(delegate()
                                         {
+                                            MainPage.Player.Score = player.Score;
                                             NavigationService.GoBack();
                                         });
                                     }, () => { });
@@ -102,7 +103,13 @@ namespace Bantu
                                 else
                                 {
                                     MessageBox.Show("Sorry, you lost.");
-                                    NavigationService.GoBack();
+                                    Context.ScorePlayer(winner.Name, score, player =>
+                                    {
+                                        Dispatcher.BeginInvoke(delegate()
+                                        {
+                                            NavigationService.GoBack();
+                                        });
+                                    }, () => { });
                                 }
                                 break;
                             case GameState.Client:

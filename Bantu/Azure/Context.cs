@@ -124,7 +124,7 @@ namespace Bantu.Azure
             var uri = new Uri(
                 string.Format(
                 CultureInfo.InvariantCulture,
-                "{0}/{1}?$filter=Host eq '{2}' or Client eq '{2}' and State ne '2'",
+                "{0}/{1}?$filter=(Host eq '{2}' or Client eq '{2}') and State ne 2",
                 context.BaseUri,
                 GAME,
                 username),

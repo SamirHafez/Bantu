@@ -9,14 +9,26 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Bantu.Azure.Model;
+using System.ComponentModel;
 
 namespace Bantu.ViewModel
 {
-    public class PlayerVM
+    public class PlayerVM : INotifyPropertyChanged
     {
         public string Name { get; set; }
         public string Credential { get; set; }
-        public long Score { get; set; }
+
+        private long _score;
+        public long Score 
+        {
+            get { return _score; }
+            set 
+            {
+                _score = value;
+                if(PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("Score"));
+            }
+        }
 
         public PlayerVM() { }
 
@@ -26,5 +38,7 @@ namespace Bantu.ViewModel
             Credential = player.Credential;
             Score = player.Score;
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
