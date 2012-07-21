@@ -76,6 +76,17 @@ namespace Bantu.ViewModel
 
         public CupVM[] Cups { get; set; }
 
+        public PlayerVM Winner 
+        {
+            get 
+            {
+                if (State != GameState.Finished)
+                    return null;
+
+                return Score(Host).Stones > Score(Client).Stones ? Host : Client;
+            } 
+        }
+
         public GameVM()
         {
             Cups = new CupVM[14];

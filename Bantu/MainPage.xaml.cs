@@ -34,7 +34,11 @@ namespace Bantu
             }
 
             if (settings.Contains("games"))
+            {
                 Games = new ObservableCollection<GameVM>(settings["games"] as IEnumerable<GameVM>);
+                foreach (var game in Games.Where(g => g.State == GameState.Finished))
+                    Games.Remove(game);
+            }
             else
                 Games = new ObservableCollection<GameVM>();
         }

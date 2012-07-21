@@ -124,7 +124,7 @@ namespace Bantu.Azure
             var uri = new Uri(
                 string.Format(
                 CultureInfo.InvariantCulture,
-                "{0}/{1}?$filter=Host eq '{2}' or Client eq '{2}'",
+                "{0}/{1}?$filter=Host eq '{2}' or Client eq '{2}' and State ne '2'",
                 context.BaseUri,
                 GAME,
                 username),
@@ -231,6 +231,56 @@ namespace Bantu.Azure
 
             games.Clear();
             games.LoadAsync(uri);
+        }
+
+        public static void ScorePlayer(string playerId, int addedScore, Action<Player> success, Action failure)
+        {
+            var context = TableClient.GetDataServiceContext();
+
+            var players = new DataServiceCollection<Player>(context);
+            players.LoadCompleted += (sender, e) =>
+            {
+                if (e.Error != null)
+                    failure();
+                else
+                {
+                    var p = players.ToList().FirstOrDefault();
+
+                    p.Score += addedScore;
+
+                    context.UpdateObject(p);
+
+                    context.BeginSaveChanges(
+                        asyncResult =>
+                        {
+                            DataServiceResponse response;
+                            try
+                            {
+                                response = context.EndSaveChanges(asyncResult);
+
+                                //TODO CALL SUCCESS OR FAILURE BASED ON RESPONSE
+                                success(p);
+                            }
+                            catch (Exception)
+                            {
+                                failure();
+                            }
+                        }
+                        , null);
+                }
+            };
+
+            var uri = new Uri(
+                string.Format(
+                CultureInfo.InvariantCulture,
+                "{0}/{1}?$top=1&$filter=RowKey eq '{2}'",
+                context.BaseUri,
+                PLAYERS,
+                playerId),
+                UriKind.Absolute);
+
+            players.Clear();
+            players.LoadAsync(uri);
         }
 
         public static void JoinGame(string username, Game game, Action<Game> success, Action<Game> failure)

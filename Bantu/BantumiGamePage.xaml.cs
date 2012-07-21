@@ -86,6 +86,24 @@ namespace Bantu
                         switch (Game.State)
                         {
                             case GameState.Finished:
+                                var winner = Game.Winner;
+                                if (winner.Name == Player.Name)
+                                {
+                                    var score = Game.Score(Player).Stones;
+                                    MessageBox.Show("Congratulations, you won! Your account will be credited with " + score);
+                                    Context.ScorePlayer(Player.Name, score, player =>
+                                    {
+                                        Dispatcher.BeginInvoke(delegate()
+                                        {
+                                            NavigationService.GoBack();
+                                        });
+                                    }, () => { });
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Sorry, you lost.");
+                                    NavigationService.GoBack();
+                                }
                                 break;
                             case GameState.Client:
                                 if (currentGameState != GameState.Client)
