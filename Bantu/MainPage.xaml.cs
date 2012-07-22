@@ -56,9 +56,9 @@ namespace Bantu
                 Games.Remove(removable);
         }
 
-        public void GoToGame(Object sender, GestureEventArgs e)
+        public void GoToGame(Object sender, EventArgs e)
         {
-            var game = Games.First(g => g.Id == ((Button)sender).Tag);
+            var game = Games.First(g => g.Id == (string)(((Button)sender).Tag));
             OpenGame(game);
         }
 

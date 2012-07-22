@@ -11,6 +11,8 @@ using System.Windows.Shapes;
 using Bantu.Azure.Model;
 using System.Linq;
 using System.ComponentModel;
+using Bantu.Controls;
+using System.Collections.Generic;
 
 namespace Bantu.ViewModel
 {

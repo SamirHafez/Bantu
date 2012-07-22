@@ -10,9 +10,19 @@
     d:DesignHeight="100" d:DesignWidth="100">
 
     <Grid x:Name="LayoutRoot" Margin="3">
-        <Grid.Background>
-            <SolidColorBrush Color="{StaticResource PhoneAccentColor}"></SolidColorBrush>
-        </Grid.Background>
+        <Rectangle Name="rScore" Fill="{StaticResource PhoneAccentBrush}">
+        </Rectangle>
         <TextBlock Text="{Binding Stones}" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="ExtraBold"  FontSize="72" />
     </Grid>
+    
+    <UserControl.Resources>
+        <Storyboard x:Name="BlinkRed">
+            <ColorAnimationUsingKeyFrames
+         Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)"
+         Storyboard.TargetName="rScore">
+                <EasingColorKeyFrame KeyTime="0:0:0.0" Value="DarkRed"/>
+                <EasingColorKeyFrame KeyTime="0:0:2" Value="{StaticResource PhoneAccentColor}"/>
+            </ColorAnimationUsingKeyFrames>
+        </Storyboard>
+    </UserControl.Resources>
 </UserControl>

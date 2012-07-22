@@ -7,12 +7,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Controls="clr-namespace:Bantu.Controls"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" 
+    xmlns:toolkitPrimitives="clr-namespace:Microsoft.Phone.Controls.Primitives;assembly=Microsoft.Phone.Controls.Toolkit"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Landscape" Orientation="Landscape"
     mc:Ignorable="d" d:DesignHeight="480" d:DesignWidth="728"
-    shell:SystemTray.IsVisible="True" Loaded="Setup">
+    shell:SystemTray.IsVisible="True" Loaded="Setup" xmlns:my="clr-namespace:Microsoft.Advertising.Mobile.UI;assembly=Microsoft.Advertising.Mobile.UI">
 
     <shell:SystemTray.ProgressIndicator>
         <shell:ProgressIndicator IsIndeterminate="true" IsVisible="False"></shell:ProgressIndicator>
@@ -31,38 +33,74 @@
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+
+        <Grid Grid.Row="1" Margin="12,0,12,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1.5*"/>
-                <ColumnDefinition Width="80"/>
-                <ColumnDefinition Width="80"/>
-                <ColumnDefinition Width="80"/>
-                <ColumnDefinition Width="80"/>
-                <ColumnDefinition Width="80"/>
-                <ColumnDefinition Width="80"/>
-                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="99"/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="99"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="80"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="80"/>
+                <RowDefinition Height="99"/>
+                <RowDefinition />
+                <RowDefinition Height="99"/>
             </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Controls:CupControl x:Name="ccP25" Grid.Column="0"/>
+                <Controls:CupControl x:Name="ccP24" Grid.Column="1"/>
+                <Controls:CupControl x:Name="ccP23" Grid.Column="2"/>
+                <Controls:CupControl x:Name="ccP22" Grid.Column="3"/>
+                <Controls:CupControl x:Name="ccP21" Grid.Column="4"/>
+                <Controls:CupControl x:Name="ccP20" Grid.Column="5"/>
+            </Grid>
+            <Grid Grid.Row="2" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Controls:CupControl x:Name="ccP10" Grid.Column="0" Tap="Play"/>
+                <Controls:CupControl x:Name="ccP11" Grid.Column="1" Tap="Play"/>
+                <Controls:CupControl x:Name="ccP12" Grid.Column="2" Tap="Play"/>
+                <Controls:CupControl x:Name="ccP13" Grid.Column="3" Tap="Play"/>
+                <Controls:CupControl x:Name="ccP14" Grid.Column="4" Tap="Play"/>
+                <Controls:CupControl x:Name="ccP15" Grid.Column="5" Tap="Play"/>
+            </Grid>
             <Controls:CupControl x:Name="ccP2Score" Grid.Row="1" Grid.Column="0"/>
-            <Controls:CupControl x:Name="ccP1Score" Grid.Row="1" Grid.Column="7"/>
-
-            <Controls:CupControl x:Name="ccP25" Grid.Row="0" Grid.Column="1"/>
-            <Controls:CupControl x:Name="ccP24" Grid.Row="0" Grid.Column="2"/>
-            <Controls:CupControl x:Name="ccP23" Grid.Row="0" Grid.Column="3"/>
-            <Controls:CupControl x:Name="ccP22" Grid.Row="0" Grid.Column="4"/>
-            <Controls:CupControl x:Name="ccP21" Grid.Row="0" Grid.Column="5"/>
-            <Controls:CupControl x:Name="ccP20" Grid.Row="0" Grid.Column="6"/>
-
-            <Controls:CupControl x:Name="ccP10" Grid.Row="2" Grid.Column="1" Tap="Play"/>
-            <Controls:CupControl x:Name="ccP11" Grid.Row="2" Grid.Column="2" Tap="Play"/>
-            <Controls:CupControl x:Name="ccP12" Grid.Row="2" Grid.Column="3" Tap="Play"/>
-            <Controls:CupControl x:Name="ccP13" Grid.Row="2" Grid.Column="4" Tap="Play"/>
-            <Controls:CupControl x:Name="ccP14" Grid.Row="2" Grid.Column="5" Tap="Play"/>
-            <Controls:CupControl x:Name="ccP15" Grid.Row="2" Grid.Column="6" Tap="Play"/>
+            <Controls:CupControl x:Name="ccP1Score" Grid.Row="1" Grid.Column="2"/>
+            <my:AdControl AdUnitId="Image480_80" ApplicationId="test_client" Grid.Column="1" Grid.Row="1" Height="80" HorizontalAlignment="Center" Name="adControl1" VerticalAlignment="Center" Width="480" />
         </Grid>
     </Grid>
+
+    <toolkit:TransitionService.NavigationInTransition>
+        <toolkit:NavigationInTransition>
+            <toolkit:NavigationInTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardIn"/>
+            </toolkit:NavigationInTransition.Backward>
+            <toolkit:NavigationInTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardIn"/>
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+    </toolkit:TransitionService.NavigationInTransition>
+    <toolkit:TransitionService.NavigationOutTransition>
+        <toolkit:NavigationOutTransition>
+            <toolkit:NavigationOutTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardOut"/>
+            </toolkit:NavigationOutTransition.Backward>
+            <toolkit:NavigationOutTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardOut"/>
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>
 </phone:PhoneApplicationPage>
