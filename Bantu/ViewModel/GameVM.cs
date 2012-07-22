@@ -197,7 +197,7 @@ namespace Bantu.ViewModel
             {
                 nextCup = Next(nextCup);
 
-                if (nextCup.IsScore && nextCup.Owner != current)
+                if (nextCup.IsScore && nextCup.Owner.Name != current.Name)
                     continue;
 
                 nextCup.Stones++;

@@ -16,20 +16,17 @@ namespace Bantu.Controls
 {
     public partial class CupControl : UserControl
     {
-        public bool Animated { get; set; }
+        private static int AnimationDelayIndex;
         public CupControl()
         {
             InitializeComponent();
+            AnimationDelayIndex = 0;
         }
 
-        public void Animate(object sender, EventArgs e) 
+        public void Animate(object sender, EventArgs e)
         {
-            Dispatcher.BeginInvoke(delegate 
-            {
-                BlinkRed.Completed += (o, args) => Animated = true;
-                Animated = false;
-                BlinkRed.Begin();
-            });
+            BlinkRed.Children[0].BeginTime = new TimeSpan(0, 0, 0, 0, AnimationDelayIndex++ * 100);
+            BlinkRed.Begin();
         }
     }
 }

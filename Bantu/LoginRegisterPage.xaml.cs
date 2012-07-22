@@ -46,10 +46,16 @@ namespace Bantu
 
         public void Signup(object sender, EventArgs e)
         {
-            SystemTray.ProgressIndicator.IsVisible = true;
-
             var username = tbUsernameSign.Text;
             var password = pbPasswordSign.Password;
+
+            if (pbPasswordConfirm.Password != password) 
+            {
+                MessageBox.Show("Signup failed. Password confirmation mismatch.");
+                return;
+            }
+
+            SystemTray.ProgressIndicator.IsVisible = true;
 
             Context.CreatePlayer(username, password, player =>
             {

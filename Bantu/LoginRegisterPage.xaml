@@ -56,11 +56,14 @@
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="USERNAME" FontWeight="ExtraBold" VerticalAlignment="Center" FontSize="{StaticResource PhoneFontSizeLarge}"/>
                         <TextBox Name="tbUsernameSign" Grid.Row="0" Grid.Column="1"/>
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="PASSWORD" FontWeight="ExtraBold" VerticalAlignment="Center" FontSize="{StaticResource PhoneFontSizeLarge}"/>
                         <PasswordBox Name="pbPasswordSign" Grid.Row="1" Grid.Column="1"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="CONFIRM" FontWeight="ExtraBold" VerticalAlignment="Center" FontSize="{StaticResource PhoneFontSizeLarge}"/>
+                        <PasswordBox Name="pbPasswordConfirm" Grid.Row="2" Grid.Column="1"/>
                     </Grid>
                     <Button Tap="Signup">SIGNUP</Button>
                 </StackPanel>
