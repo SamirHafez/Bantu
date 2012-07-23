@@ -56,10 +56,7 @@ namespace Bantu
             while (NavigationService.BackStack.Any())
                 NavigationService.RemoveBackEntry();
 
-            var removables = new List<GameVM>();
-            removables.AddRange(Games.Where(g => g.State == GameState.Finished));
-            foreach (var removable in removables)
-                Games.Remove(removable);
+            RemoveWonGames();
 
 			if (NewPlayer)
 			{
@@ -68,6 +65,17 @@ namespace Bantu
 				if(result == MessageBoxResult.OK)
 					NavigationService.Navigate(new Uri("/Help.xaml", UriKind.Relative));
 			}
+        }
+
+        private static void RemoveWonGames()
+        {
+            var removables = new List<GameVM>();
+            removables.AddRange(Games.Where(g => g.State == GameState.Finished));
+            foreach (var removable in removables)
+            {
+                Player.Score += removable.Winner.Score;
+                Games.Remove(removable);
+            }
         }
 
         public void GoToGame(Object sender, EventArgs e)

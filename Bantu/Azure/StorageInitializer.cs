@@ -12,7 +12,7 @@ namespace Bantu.App_Start
         {
             // By using CloudStorageClientResolverAccountAndKey.DevelopmentStorageAccountResolver you can connect directly 
             // against the Windows Azure Storage Emulator.
-            var resolver = CloudStorageClientResolverAccountAndKey.DevelopmentStorageAccountResolver;
+            //var resolver = CloudStorageClientResolverAccountAndKey.DevelopmentStorageAccountResolver;
 
             // By using CloudStorageClientResolverProxies you can connect to a Windows Azure Web Role that contains the
             // Windows Azure Storage Proxies.
@@ -26,12 +26,12 @@ namespace Bantu.App_Start
 
             // By using CloudStorageClientResolverAccountAndKey you can connect to your Windows Azure Storage Services account directly.
             // Just replace your Windows Azure Storage account credentials and endpoints.
-            // var resolver = new CloudStorageClientResolverAccountAndKey(
-            //    new StorageCredentialsAccountAndKey("[your account name]", "[your account key]"),
-            //    new Uri("http://[your account name].blob.core.windows.net"),
-            //    new Uri("http://[your account name].queue.core.windows.net"),
-            //    new Uri("http://[your account name].table.core.windows.net"),
-            //    Deployment.Current.Dispatcher);
+            var resolver = new CloudStorageClientResolverAccountAndKey(
+               new StorageCredentialsAccountAndKey("bantu", "wA4oBSutAQRzg/wggHFxqruJ1AdrNs5BA64q1LXD/7A7RgE/DXciXG+R480zNM3z/nq5SOwkQlfq9F2HX0f4IQ=="),
+               new Uri("http://bantu.blob.core.windows.net"),
+               new Uri("http://bantu.queue.core.windows.net"),
+               new Uri("http://bantu.table.core.windows.net"),
+               Deployment.Current.Dispatcher);
 
             CloudStorageContext.Current.Resolver = resolver;
         }

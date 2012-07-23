@@ -40,7 +40,7 @@ namespace Bantu.Controls
 
 		public void Animate(object sender, PropertyChangedEventArgs args)
 		{
-			BlinkWhite.Children[0].BeginTime = new TimeSpan(0, 0, AnimationDelayIndex++);
+			BlinkWhite.Children[0].BeginTime = new TimeSpan(0, 0, 0, 0, AnimationDelayIndex++ * 400);
 			BlinkWhite.Begin();
 		}
 	}

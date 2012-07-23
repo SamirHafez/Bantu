@@ -20,8 +20,8 @@
             <ColorAnimationUsingKeyFrames
          Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)"
          Storyboard.TargetName="rScore">
-                <EasingColorKeyFrame KeyTime="0:0:.5" Value="White"/>
-                <EasingColorKeyFrame KeyTime="0:0:.5" Value="{StaticResource PhoneAccentColor}"/>
+                <EasingColorKeyFrame KeyTime="0:0:.4" Value="White"/>
+                <EasingColorKeyFrame KeyTime="0:0:.4" Value="{StaticResource PhoneAccentColor}"/>
             </ColorAnimationUsingKeyFrames>
         </Storyboard>
     </UserControl.Resources>
