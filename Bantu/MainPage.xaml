@@ -105,7 +105,7 @@
             <shell:ApplicationBarIconButton IconUri="/Icons/appbar.favs.rest.png" Text="Leaderboards"/>
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="Settings" />
-                <shell:ApplicationBarMenuItem Text="Help" />
+                <shell:ApplicationBarMenuItem Text="Help" Click="HelpPage"/>
                 <shell:ApplicationBarMenuItem Text="About" />
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>

@@ -59,6 +59,7 @@ namespace Bantu
 
             Context.CreatePlayer(username, password, player =>
             {
+				MainPage.NewPlayer = true;
                 SetPlayer(player);
             }, () =>
             {

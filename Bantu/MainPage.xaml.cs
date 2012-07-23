@@ -17,6 +17,7 @@ namespace Bantu
     {
         public static PlayerVM Player { get; set; }
         public static ObservableCollection<GameVM> Games { get; set; }
+		public static bool NewPlayer { get; set; }
 
         public MainPage()
         {
@@ -54,6 +55,14 @@ namespace Bantu
             removables.AddRange(Games.Where(g => g.State == GameState.Finished));
             foreach (var removable in removables)
                 Games.Remove(removable);
+
+			if (NewPlayer)
+			{
+				NewPlayer = false;
+				var result = MessageBox.Show("Since you are a new player would you like to learn how to play?", "NEW PLAYER", MessageBoxButton.OKCancel);
+				if(result == MessageBoxResult.OK)
+					NavigationService.Navigate(new Uri("/Help.xaml", UriKind.Relative));
+			}
         }
 
         public void GoToGame(Object sender, EventArgs e)
@@ -61,6 +70,11 @@ namespace Bantu
             var game = Games.First(g => g.Id == (string)(((Button)sender).Tag));
             OpenGame(game);
         }
+
+		public void HelpPage(Object sender, EventArgs e)
+		{
+			NavigationService.Navigate(new Uri("/Help.xaml", UriKind.Relative));
+		}
 
         private void OpenGame(GameVM game)
         {

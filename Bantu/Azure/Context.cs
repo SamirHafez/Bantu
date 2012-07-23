@@ -70,7 +70,7 @@ namespace Bantu.Azure
             var uri = new Uri(
                 string.Format(
                 CultureInfo.InvariantCulture,
-                "{0}/{1}?$top=1&$filter=(Name eq '{2}') and (Credential eq '{3}')",
+                "{0}{1}?$top=1&$filter=(Name eq '{2}') and (Credential eq '{3}')",
                 context.BaseUri,
                 PLAYERS,
                 username,
@@ -97,7 +97,7 @@ namespace Bantu.Azure
             var uri = new Uri(
                 string.Format(
                 CultureInfo.InvariantCulture,
-                "{0}/{1}?$top={2}&$filter=Host ne '{3}' and Client eq ''",
+                "{0}{1}?$top={2}&$filter=Host ne '{3}' and Client eq ''",
                 context.BaseUri,
                 GAME,
                 amount,
@@ -124,7 +124,7 @@ namespace Bantu.Azure
             var uri = new Uri(
                 string.Format(
                 CultureInfo.InvariantCulture,
-                "{0}/{1}?$filter=(Host eq '{2}' or Client eq '{2}') and State ne 2",
+                "{0}{1}?$filter=(Host eq '{2}' or Client eq '{2}') and State ne 2",
                 context.BaseUri,
                 GAME,
                 username),
@@ -156,7 +156,7 @@ namespace Bantu.Azure
             var uri = new Uri(
                 string.Format(
                 CultureInfo.InvariantCulture,
-                "{0}/{1}?$top=1&$filter=RowKey eq '{2}'",
+                "{0}{1}?$top=1&$filter=RowKey eq '{2}'",
                 context.BaseUri,
                 GAME,
                 gameId),
@@ -223,7 +223,7 @@ namespace Bantu.Azure
             var uri = new Uri(
                 string.Format(
                 CultureInfo.InvariantCulture,
-                "{0}/{1}?$top=1&$filter=RowKey eq '{2}'",
+                "{0}{1}?$top=1&$filter=RowKey eq '{2}'",
                 context.BaseUri,
                 GAME,
                 game.Id),
@@ -273,7 +273,7 @@ namespace Bantu.Azure
             var uri = new Uri(
                 string.Format(
                 CultureInfo.InvariantCulture,
-                "{0}/{1}?$top=1&$filter=RowKey eq '{2}'",
+                "{0}{1}?$top=1&$filter=RowKey eq '{2}'",
                 context.BaseUri,
                 PLAYERS,
                 playerId),
@@ -321,7 +321,7 @@ namespace Bantu.Azure
             var uri = new Uri(
                 string.Format(
                 CultureInfo.InvariantCulture,
-                "{0}/{1}?$top=1&$filter=RowKey eq '{2}'",
+                "{0}{1}?$top=1&$filter=RowKey eq '{2}'",
                 context.BaseUri,
                 GAME,
                 game.RowKey),
