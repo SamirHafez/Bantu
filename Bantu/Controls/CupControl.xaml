@@ -12,16 +12,16 @@
     <Grid x:Name="LayoutRoot" Margin="3">
         <Rectangle Name="rScore" Fill="{StaticResource PhoneAccentBrush}">
         </Rectangle>
-        <TextBlock Text="{Binding Stones}" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="ExtraBold"  FontSize="72" />
+        <TextBlock Name="tbStones" Text="{Binding Stones}" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="ExtraBold"  FontSize="72" />
     </Grid>
     
     <UserControl.Resources>
-        <Storyboard x:Name="BlinkRed">
+        <Storyboard x:Name="BlinkWhite">
             <ColorAnimationUsingKeyFrames
          Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)"
          Storyboard.TargetName="rScore">
-                <EasingColorKeyFrame KeyTime="0:0:0" Value="White"/>
-                <EasingColorKeyFrame KeyTime="0:0:1" Value="{StaticResource PhoneAccentColor}"/>
+                <EasingColorKeyFrame KeyTime="0:0:.5" Value="White"/>
+                <EasingColorKeyFrame KeyTime="0:0:.5" Value="{StaticResource PhoneAccentColor}"/>
             </ColorAnimationUsingKeyFrames>
         </Storyboard>
     </UserControl.Resources>

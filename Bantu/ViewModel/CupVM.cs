@@ -12,21 +12,30 @@ using System.ComponentModel;
 
 namespace Bantu.ViewModel
 {
-    public class CupVM : INotifyPropertyChanged
-    {
-        public int Index { get; set; }
+	public class CupVM : INotifyPropertyChanged, INotifyPropertyChanging
+	{
+		public int Index { get; set; }
 
-        private int _stones;
-        public int Stones
-        {
-            get { return _stones; }
-            set { _stones = value; if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs("Stones")); }
-        }
+		private int _stones;
+		public int Stones
+		{
+			get { return _stones; }
+			set
+			{
+				if (PropertyChanging != null)
+					PropertyChanging(this, new PropertyChangingEventArgs("Stones"));
+				_stones = value;
+				if (PropertyChanged != null)
+					PropertyChanged(this, new PropertyChangedEventArgs("Stones"));
+			}
+		}
 
-        public bool IsScore { get; set; }
+		public bool IsScore { get; set; }
 
-        public PlayerVM Owner { get; set; }
+		public PlayerVM Owner { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-    }
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		public event PropertyChangingEventHandler PropertyChanging;
+	}
 }

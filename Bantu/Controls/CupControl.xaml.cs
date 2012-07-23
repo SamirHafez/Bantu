@@ -11,22 +11,37 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Bantu.ViewModel;
 using System.Threading;
+using System.ComponentModel;
 
 namespace Bantu.Controls
 {
-    public partial class CupControl : UserControl
-    {
-        private static int AnimationDelayIndex;
-        public CupControl()
-        {
-            InitializeComponent();
-            AnimationDelayIndex = 0;
-        }
+	public partial class CupControl : UserControl
+	{
+		public static int AnimationDelayIndex;
+		private bool _resetOnce;
+		public CupControl()
+		{
+			InitializeComponent();
+			AnimationDelayIndex = 0;
+			_resetOnce = true;
+			BlinkWhite.Completed += (s, a) => tbStones.Text = ((CupVM)DataContext).Stones.ToString();
+		}
 
-        public void Animate(object sender, EventArgs e)
-        {
-            BlinkRed.Children[0].BeginTime = new TimeSpan(0, 0, 0, 0, AnimationDelayIndex++ * 100);
-            BlinkRed.Begin();
-        }
-    }
+		public void Preset(object sender, PropertyChangingEventArgs args)
+		{
+			if (_resetOnce)
+			{
+				var stones = ((CupVM)DataContext).Stones;
+				tbStones.ClearValue(TextBlock.TextProperty);
+				tbStones.Text = stones.ToString();
+				_resetOnce = false;
+			}
+		}
+
+		public void Animate(object sender, PropertyChangedEventArgs args)
+		{
+			BlinkWhite.Children[0].BeginTime = new TimeSpan(0, 0, AnimationDelayIndex++);
+			BlinkWhite.Begin();
+		}
+	}
 }

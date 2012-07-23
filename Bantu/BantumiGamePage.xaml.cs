@@ -30,21 +30,8 @@ namespace Bantu
             else
                 BindClient();
 
-            ((CupVM)ccP10.DataContext).PropertyChanged += ccP10.Animate;
-            ((CupVM)ccP11.DataContext).PropertyChanged += ccP11.Animate;
-            ((CupVM)ccP12.DataContext).PropertyChanged += ccP12.Animate;
-            ((CupVM)ccP13.DataContext).PropertyChanged += ccP13.Animate;
-            ((CupVM)ccP14.DataContext).PropertyChanged += ccP14.Animate;
-            ((CupVM)ccP15.DataContext).PropertyChanged += ccP15.Animate;
-            ((CupVM)ccP1Score.DataContext).PropertyChanged += ccP1Score.Animate;
-
-            ((CupVM)ccP20.DataContext).PropertyChanged += ccP20.Animate;
-            ((CupVM)ccP21.DataContext).PropertyChanged += ccP21.Animate;
-            ((CupVM)ccP22.DataContext).PropertyChanged += ccP22.Animate;
-            ((CupVM)ccP23.DataContext).PropertyChanged += ccP23.Animate;
-            ((CupVM)ccP24.DataContext).PropertyChanged += ccP24.Animate;
-            ((CupVM)ccP25.DataContext).PropertyChanged += ccP25.Animate;
-            ((CupVM)ccP2Score.DataContext).PropertyChanged += ccP2Score.Animate;
+			BindChangingProperties();
+			BindChangedProperties();
         }
 
         public void Play(object sender, EventArgs args)
@@ -91,12 +78,18 @@ namespace Bantu
                                 }
                                 break;
                             case GameState.Client:
-                                if (currentGameState != GameState.Client)
-                                    NavigationService.GoBack();
+								if (currentGameState != GameState.Client)
+									//NavigationService.GoBack();
+									;
+								else
+									CupControl.AnimationDelayIndex = 0;
                                 break;
                             case GameState.Host:
-                                if (currentGameState != GameState.Host)
-                                    NavigationService.GoBack();
+								if (currentGameState != GameState.Host)
+									//NavigationService.GoBack();
+									;
+								else
+									CupControl.AnimationDelayIndex = 0;
                                 break;
                         }
                     });
@@ -148,5 +141,43 @@ namespace Bantu
             ccP24.DataContext = Game.Get(Game.Client, 4);
             ccP25.DataContext = Game.Get(Game.Client, 5);
         }
+
+		private void BindChangedProperties()
+		{
+			((CupVM)ccP10.DataContext).PropertyChanged += ccP10.Animate;
+			((CupVM)ccP11.DataContext).PropertyChanged += ccP11.Animate;
+			((CupVM)ccP12.DataContext).PropertyChanged += ccP12.Animate;
+			((CupVM)ccP13.DataContext).PropertyChanged += ccP13.Animate;
+			((CupVM)ccP14.DataContext).PropertyChanged += ccP14.Animate;
+			((CupVM)ccP15.DataContext).PropertyChanged += ccP15.Animate;
+			((CupVM)ccP1Score.DataContext).PropertyChanged += ccP1Score.Animate;
+
+			((CupVM)ccP20.DataContext).PropertyChanged += ccP20.Animate;
+			((CupVM)ccP21.DataContext).PropertyChanged += ccP21.Animate;
+			((CupVM)ccP22.DataContext).PropertyChanged += ccP22.Animate;
+			((CupVM)ccP23.DataContext).PropertyChanged += ccP23.Animate;
+			((CupVM)ccP24.DataContext).PropertyChanged += ccP24.Animate;
+			((CupVM)ccP25.DataContext).PropertyChanged += ccP25.Animate;
+			((CupVM)ccP2Score.DataContext).PropertyChanged += ccP2Score.Animate;
+		}
+
+		private void BindChangingProperties()
+		{
+			((CupVM)ccP10.DataContext).PropertyChanging += ccP10.Preset;
+			((CupVM)ccP11.DataContext).PropertyChanging += ccP11.Preset;
+			((CupVM)ccP12.DataContext).PropertyChanging += ccP12.Preset;
+			((CupVM)ccP13.DataContext).PropertyChanging += ccP13.Preset;
+			((CupVM)ccP14.DataContext).PropertyChanging += ccP14.Preset;
+			((CupVM)ccP15.DataContext).PropertyChanging += ccP15.Preset;
+			((CupVM)ccP1Score.DataContext).PropertyChanging += ccP1Score.Preset;
+
+			((CupVM)ccP20.DataContext).PropertyChanging += ccP20.Preset;
+			((CupVM)ccP21.DataContext).PropertyChanging += ccP21.Preset;
+			((CupVM)ccP22.DataContext).PropertyChanging += ccP22.Preset;
+			((CupVM)ccP23.DataContext).PropertyChanging += ccP23.Preset;
+			((CupVM)ccP24.DataContext).PropertyChanging += ccP24.Preset;
+			((CupVM)ccP25.DataContext).PropertyChanging += ccP25.Preset;
+			((CupVM)ccP2Score.DataContext).PropertyChanging += ccP2Score.Preset;
+		}
     }
 }
