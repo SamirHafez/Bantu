@@ -13,32 +13,30 @@ using System.ComponentModel;
 
 namespace Bantu.ViewModel
 {
-    public class PlayerVM : INotifyPropertyChanged
-    {
-        public string Name { get; set; }
-        public string Credential { get; set; }
+	public class PlayerVM : INotifyPropertyChanged
+	{
+		public string Name { get; set; }
 
-        private long _score;
-        public long Score 
-        {
-            get { return _score; }
-            set 
-            {
-                _score = value;
-                if(PropertyChanged != null)
-                    PropertyChanged(this, new PropertyChangedEventArgs("Score"));
-            }
-        }
+		private long _score;
+		public long Score
+		{
+			get { return _score; }
+			set
+			{
+				_score = value;
+				if (PropertyChanged != null)
+					PropertyChanged(this, new PropertyChangedEventArgs("Score"));
+			}
+		}
 
-        public PlayerVM() { }
+		public PlayerVM() { }
 
-        public PlayerVM(Player player) 
-        {
-            Name = player.Name;
-            Credential = player.Credential;
-            Score = player.Score;
-        }
+		public PlayerVM(Player player)
+		{
+			Name = player.Name;
+			Score = player.Score;
+		}
 
-        public event PropertyChangedEventHandler PropertyChanged;
-    }
+		public event PropertyChangedEventHandler PropertyChanged;
+	}
 }

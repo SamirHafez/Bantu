@@ -21,34 +21,15 @@
 
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <controls:Panorama Title="bantu" SelectionChanged="Panorama_SelectionChanged">
-            <!--<controls:Panorama.Background>
-                <ImageBrush ImageSource="PanoramaBackground.png"/>
-            </controls:Panorama.Background>-->
-
             <controls:PanoramaItem Name="userPi">
-                <Grid Margin="12,0,0,0">
+                <Grid Margin="12,0,0,12">
                     <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition Height=".1*" />
-                        <RowDefinition />
-                        <RowDefinition Height=".1*" />
+                        <RowDefinition Height=".2*"/>
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width=".6*" />
-                        <ColumnDefinition Width=".4*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="SCORE" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeExtraLarge}" FontWeight="ExtraBold"/>
-                    <Rectangle Grid.Column="1" Grid.Row="0" Fill="{StaticResource PhoneAccentBrush}"></Rectangle>
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Player.Score}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" FontSize="72" FontWeight="ExtraBold"/>
-
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="GAMES WON" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeExtraLarge}" FontWeight="ExtraBold"/>
-                    <Rectangle Grid.Column="1" Grid.Row="2" Fill="{StaticResource PhoneAccentBrush}"></Rectangle>
-                    <TextBlock Name="tbGw" Grid.Row="2" Grid.Column="1" Text="0" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" FontSize="72" FontWeight="ExtraBold"/>
-
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="GAMES LOST" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeExtraLarge}" FontWeight="ExtraBold"/>
-                    <Rectangle Grid.Column="1" Grid.Row="4" Fill="{StaticResource PhoneAccentBrush}"></Rectangle>
-                    <TextBlock Name="tbGl" Grid.Row="4" Grid.Column="1" Text="0" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" FontSize="72" FontWeight="ExtraBold"/>
+                    <Rectangle Grid.Column="1" Grid.Row="1" Fill="{StaticResource PhoneAccentBrush}"></Rectangle>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="SCORE" VerticalAlignment="Center"  HorizontalAlignment="Center" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeExtraLarge}" FontWeight="ExtraBold"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Player.Score}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" FontSize="72" FontWeight="ExtraBold"/>
                 </Grid>
             </controls:PanoramaItem>
 
@@ -102,11 +83,9 @@
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
             <shell:ApplicationBarIconButton IconUri="/Icons/appbar.transport.play.rest.png" Text="Quick Play" Click="JoinRandom"/>
             <shell:ApplicationBarIconButton IconUri="/Icons/appbar.add.rest.png" Text="Create Game" Click="CreateGame"/>
-            <shell:ApplicationBarIconButton IconUri="/Icons/appbar.favs.rest.png" Text="Leaderboards"/>
             <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="Settings" />
                 <shell:ApplicationBarMenuItem Text="Help" Click="HelpPage"/>
-                <shell:ApplicationBarMenuItem Text="About" />
+                <shell:ApplicationBarMenuItem Text="About" Click="AboutPage" />
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

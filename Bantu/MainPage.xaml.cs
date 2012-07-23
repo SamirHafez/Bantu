@@ -76,6 +76,11 @@ namespace Bantu
 			NavigationService.Navigate(new Uri("/Help.xaml", UriKind.Relative));
 		}
 
+		public void AboutPage(Object sender, EventArgs e)
+		{
+			NavigationService.Navigate(new Uri("/About.xaml", UriKind.Relative));
+		}
+
         private void OpenGame(GameVM game)
         {
             if (game.Client == null || !game.IsMyTurn)
