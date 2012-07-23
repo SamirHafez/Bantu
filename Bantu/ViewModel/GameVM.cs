@@ -37,6 +37,8 @@ namespace Bantu.ViewModel
             set
             {
                 _host = value;
+				if (PropertyChanged != null)
+					PropertyChanged(this, new PropertyChangedEventArgs("Host"));
                 foreach (var cup in Cups.Take(Cups.Length / 2))
                     cup.Owner = _host;
             }
@@ -52,6 +54,8 @@ namespace Bantu.ViewModel
             set
             {
                 _client = value;
+				if (PropertyChanged != null)
+					PropertyChanged(this, new PropertyChangedEventArgs("Client"));
                 foreach (var cup in Cups.Skip(Cups.Length / 2))
                     cup.Owner = _client;
             }
@@ -160,6 +164,12 @@ namespace Bantu.ViewModel
             Cups.Take(Cups.Length / 2).Last().Stones = game.ScoreClient;
 
             LastUpdate = game.Timestamp;
+
+			if(Host == null || Host.Name == string.Empty)
+				Host = new PlayerVM { Name = game.Host };
+
+			if(Client == null || Client.Name == string.Empty)
+				Client = new PlayerVM { Name = game.Client };
         }
 
         public CupVM Get(PlayerVM current, int cupIndex)

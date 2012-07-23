@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using Bantu.ViewModel;
 using Bantu.Azure;
 using System.Windows.Controls;
+using Microsoft.Phone.Net.NetworkInformation;
 
 namespace Bantu
 {
@@ -23,8 +24,6 @@ namespace Bantu
         {
             InitializeComponent();
             DataContext = this;
-
-            //ResetState();
 
             var settings = IsolatedStorageSettings.ApplicationSettings;
 
@@ -42,6 +41,12 @@ namespace Bantu
 
         public void Initialize(Object sender, EventArgs e)
         {
+			if (!InternetConectivity())
+			{
+				MessageBox.Show("Bantu requires an active internet connection. Exiting.");
+				NavigationService.GoBack();
+			}
+
             if (Player == null)
             {
                 NavigationService.Navigate(new Uri("/LoginRegisterPage.xaml", UriKind.Relative));
@@ -79,6 +84,11 @@ namespace Bantu
 		public void AboutPage(Object sender, EventArgs e)
 		{
 			NavigationService.Navigate(new Uri("/About.xaml", UriKind.Relative));
+		}
+
+		private bool InternetConectivity()
+		{
+			return NetworkInterface.GetIsNetworkAvailable();
 		}
 
         private void OpenGame(GameVM game)
@@ -168,16 +178,6 @@ namespace Bantu
                     MessageBox.Show("Failed to find an open challenge. Please try again.");
                 });
             });
-        }
-
-        private void ResetState()
-        {
-            Context.Reset();
-
-            var settings = IsolatedStorageSettings.ApplicationSettings;
-
-            settings.Remove("player");
-            settings.Remove("games");
         }
 
         private void Panorama_SelectionChanged(object sender, SelectionChangedEventArgs e)

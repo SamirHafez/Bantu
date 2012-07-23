@@ -79,15 +79,15 @@ namespace Bantu
                                 break;
                             case GameState.Client:
 								if (currentGameState != GameState.Client)
-									//NavigationService.GoBack();
 									;
+									//NavigationService.GoBack();
 								else
 									CupControl.AnimationDelayIndex = 0;
                                 break;
                             case GameState.Host:
 								if (currentGameState != GameState.Host)
-									//NavigationService.GoBack();
 									;
+								//NavigationService.GoBack();
 								else
 									CupControl.AnimationDelayIndex = 0;
                                 break;
