@@ -7,6 +7,8 @@ using System.IO.IsolatedStorage;
 using Bantu.Azure;
 using Bantu.ViewModel;
 using Bantu.Azure.Model;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace Bantu
 {
@@ -29,8 +31,9 @@ namespace Bantu
 
             var username = tbUsername.Text;
             var password = pbPassword.Password;
+            var encryptedPassword = new SHA1Managed().ComputeHash(Encoding.UTF8.GetBytes(password));
 
-            Context.ValidatePlayer(username, password, player =>
+            Context.ValidatePlayer(username, ConvertToString(encryptedPassword), player =>
             {
                 SetPlayer(player);
             }, () =>
@@ -57,7 +60,9 @@ namespace Bantu
 
             SystemTray.ProgressIndicator.IsVisible = true;
 
-            Context.CreatePlayer(username, password, player =>
+            var encryptedPassword = new SHA1Managed().ComputeHash(Encoding.UTF8.GetBytes(password));
+
+            Context.CreatePlayer(username, ConvertToString(encryptedPassword), player =>
             {
 				MainPage.NewPlayer = true;
                 SetPlayer(player);
@@ -90,6 +95,18 @@ namespace Bantu
                 SystemTray.ProgressIndicator.IsVisible = false;
                 NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
             });
+        }
+
+        private static string ConvertToString(byte[] buff)
+        {
+            string sbinary = "";
+
+            for (int i = 0; i < buff.Length; i++)
+            {
+                //hex-formatted
+                sbinary += buff[i].ToString("X2");
+            }
+            return (sbinary);
         }
     }
 }
