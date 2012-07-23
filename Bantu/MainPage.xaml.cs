@@ -110,6 +110,11 @@ namespace Bantu
 
         public void CreateGame(Object sender, EventArgs e)
         {
+            if (Games.Count >= 10) 
+            {
+                MessageBox.Show("You are not allowed to play in more than ten games simultaneously. Please finish some games before starting new ones.");
+            }
+
             SystemTray.ProgressIndicator.IsVisible = true;
             Context.CreateGame(Player.Name, game =>
             {
@@ -155,6 +160,11 @@ namespace Bantu
 
         public void JoinRandom(Object sender, EventArgs e)
         {
+            if (Games.Count >= 10)
+            {
+                MessageBox.Show("You are not allowed to play in more than ten games simultaneously. Please finish some games before starting new ones.");
+            }
+
             SystemTray.ProgressIndicator.IsVisible = true;
             Context.OpenGames(Player.Name, games =>
             {
