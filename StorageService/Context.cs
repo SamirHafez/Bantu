@@ -24,8 +24,10 @@ namespace StorageService
 			});
 			account = CloudStorageAccount.FromConfigurationSetting("DataConnectionString");
 			CloudTableClient tableClient = new CloudTableClient(account.TableEndpoint.AbsoluteUri, account.Credentials);
-			tableClient.CreateTableIfNotExist(PLAYER);
-			tableClient.CreateTableIfNotExist(GAME);
+            //tableClient.DeleteTableIfExist(PLAYER);
+            //tableClient.DeleteTableIfExist(GAME);
+            tableClient.CreateTableIfNotExist(PLAYER);
+            tableClient.CreateTableIfNotExist(GAME);
 		}
 
 		public Context()

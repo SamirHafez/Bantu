@@ -23,7 +23,8 @@ namespace NotificationService
 			});
 			account = CloudStorageAccount.FromConfigurationSetting("DataConnectionString");
 			CloudTableClient tableClient = new CloudTableClient(account.TableEndpoint.AbsoluteUri, account.Credentials);
-			tableClient.CreateTableIfNotExist(NOTIFICATION);
+            //tableClient.DeleteTableIfExist(NOTIFICATION);
+            tableClient.CreateTableIfNotExist(NOTIFICATION);
 		}
 
 		public Context()

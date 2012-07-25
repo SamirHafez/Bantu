@@ -107,8 +107,7 @@ namespace Bantu
 			if (game.Client == null || !game.IsMyTurn)
 				return;
 
-			var index = Games.IndexOf(game);
-			NavigationService.Navigate(new Uri("/BantumiGamePage.xaml?game=" + index, UriKind.Relative));
+			NavigationService.Navigate(new Uri("/BantumiGamePage.xaml?game=" + game.Id, UriKind.Relative));
 		}
 
 		public void CreateGame(Object sender, EventArgs e)
@@ -141,24 +140,24 @@ namespace Bantu
 
 		public void Refresh(Object sender, EventArgs e)
 		{
-			foreach (var gameVM in Games)
-			{
-				SystemTray.ProgressIndicator.IsVisible = true;
-				Context.GetGame(gameVM.Id, game =>
-				{
-					Dispatcher.BeginInvoke(delegate()
-					{
-						gameVM.Update(game);
-						SystemTray.ProgressIndicator.IsVisible = false;
-					});
-				}, () =>
-				{
-					Dispatcher.BeginInvoke(delegate()
-					{
-						SystemTray.ProgressIndicator.IsVisible = false;
-					});
-				});
-			}
+            SystemTray.ProgressIndicator.IsVisible = true;
+
+            Context.PlayerGames(Player.Name, games => 
+            {
+                Dispatcher.BeginInvoke(delegate 
+                {
+                    Games.Clear();
+                    foreach (var game in games.Select(g => new GameVM(g)))
+                        Games.Add(game);
+
+                    var settings = IsolatedStorageSettings.ApplicationSettings;
+                    settings["games"] = Games.ToArray();
+
+                    SystemTray.ProgressIndicator.IsVisible = false;
+                });
+            }, () => 
+            {
+            });
 		}
 
 		public void JoinRandom(Object sender, EventArgs e)

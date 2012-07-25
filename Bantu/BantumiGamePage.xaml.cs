@@ -5,6 +5,8 @@ using Bantu.ViewModel;
 using Bantu.Controls;
 using Microsoft.Phone.Shell;
 using Bantu.TableStorage;
+using System.Linq;
+using System.IO.IsolatedStorage;
 
 namespace Bantu
 {
@@ -20,17 +22,27 @@ namespace Bantu
 
         public void Setup(object sender, EventArgs args)
         {
-            var gameIndex = int.Parse(NavigationContext.QueryString["game"]);
-            Game = MainPage.Games[gameIndex];
-            Player = MainPage.Player;
+            var gameId = NavigationContext.QueryString["game"];
+            var settings = IsolatedStorageSettings.ApplicationSettings;
+            Player = settings["player"] as PlayerVM;
 
-            if (Game.Host.Name == Player.Name)
-                BindHost();
-            else
-                BindClient();
+            Context.GetGame(gameId, game => 
+            {
+                Dispatcher.BeginInvoke(delegate 
+                {
+                    Game = new GameVM(game);
 
-			BindChangingProperties();
-			BindChangedProperties();
+                    if (Game.Host.Name == Player.Name)
+                        BindHost();
+                    else
+                        BindClient();
+
+                    BindChangingProperties();
+                    BindChangedProperties();
+                });
+            }, () => 
+            {
+            });
         }
 
         public void Play(object sender, EventArgs args)
@@ -43,7 +55,6 @@ namespace Bantu
                 SystemTray.ProgressIndicator.IsVisible = true;
                 Context.UpdateGame(Player.Name, Game.ToGame(), game =>
                 {
-                    Game.LastUpdate = game.Timestamp;
                     Dispatcher.BeginInvoke(delegate()
                     {
                         SystemTray.ProgressIndicator.IsVisible = false;

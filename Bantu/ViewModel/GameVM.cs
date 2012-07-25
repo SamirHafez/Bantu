@@ -61,8 +61,6 @@ namespace Bantu.ViewModel
 			}
 		}
 
-		public DateTime LastUpdate { get; set; }
-
 		private GameState _gameState;
 		public GameState State
 		{
@@ -126,6 +124,7 @@ namespace Bantu.ViewModel
 			Cups[3].Stones = game.Host3;
 			Cups[4].Stones = game.Host4;
 			Cups[5].Stones = game.Host5;
+            Cups[6].Stones = game.ScoreHost;
 
 			Cups[7].Stones = game.Client0;
 			Cups[8].Stones = game.Client1;
@@ -133,13 +132,9 @@ namespace Bantu.ViewModel
 			Cups[10].Stones = game.Client3;
 			Cups[11].Stones = game.Client4;
 			Cups[12].Stones = game.Client5;
+            Cups[13].Stones = game.ScoreClient;
 
 			State = (GameState)game.State;
-
-			Cups.Last().Stones = game.ScoreHost;
-			Cups.Take(Cups.Length / 2).Last().Stones = game.ScoreClient;
-
-			LastUpdate = game.Timestamp;
 		}
 
 		public void Update(Game game)
@@ -150,6 +145,7 @@ namespace Bantu.ViewModel
 			Cups[3].Stones = game.Host3;
 			Cups[4].Stones = game.Host4;
 			Cups[5].Stones = game.Host5;
+            Cups[6].Stones = game.ScoreHost;
 
 			Cups[7].Stones = game.Client0;
 			Cups[8].Stones = game.Client1;
@@ -157,13 +153,9 @@ namespace Bantu.ViewModel
 			Cups[10].Stones = game.Client3;
 			Cups[11].Stones = game.Client4;
 			Cups[12].Stones = game.Client5;
+            Cups[13].Stones = game.ScoreClient;
 
 			State = (GameState)game.State;
-
-			Cups.Last().Stones = game.ScoreHost;
-			Cups.Take(Cups.Length / 2).Last().Stones = game.ScoreClient;
-
-			LastUpdate = game.Timestamp;
 
 			if (Host == null || Host.Name == string.Empty)
 				Host = new PlayerVM { Name = game.Host };
@@ -275,8 +267,8 @@ namespace Bantu.ViewModel
 			{
 				Client = Client.Name,
 				Host = Host.Name,
-				ScoreHost = Cups[6].Stones,
-				ScoreClient = Cups[13].Stones,
+				ScoreHost = Score(Host).Stones,
+				ScoreClient = Score(Client).Stones,
 
 				State = (int)State,
 

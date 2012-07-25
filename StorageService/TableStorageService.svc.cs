@@ -21,10 +21,10 @@ namespace StorageService
 			_notificationService = new NotificationServiceClient();
 		}
 
-		public void Reset()
-		{
-			throw new NotImplementedException();
-		}
+        public void Reset()
+        {
+            throw new NotImplementedException();
+        }
 
 		public Player CreatePlayer(string username, string credential)
 		{
@@ -54,7 +54,7 @@ namespace StorageService
 		public IEnumerable<Game> PlayerGames(string username)
 		{
 			return (from g in _context.Game
-					where g.Host == username || g.Client == username && g.State != (int)GameState.Finished
+					where (g.Host == username || g.Client == username) && g.State != (int)GameState.Finished
 					select g).ToList();
 		}
 
@@ -108,5 +108,5 @@ namespace StorageService
 
 			return game;
 		}
-	}
+    }
 }
