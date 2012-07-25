@@ -47,5 +47,8 @@
     <LocalResources>
       <LocalStorage name="NotificationService.svclog" sizeInMB="1000" cleanOnRoleRecycle="false" />
     </LocalResources>
+    <ConfigurationSettings>
+      <Setting name="DataConnectionString" />
+    </ConfigurationSettings>
   </WebRole>
 </ServiceDefinition>

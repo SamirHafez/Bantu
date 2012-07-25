@@ -52,14 +52,14 @@ namespace NotificationService
 
 		public void Notify(string from, string to, string gameId)
 		{
-			var endpoint = (from n in _context.Notification
+			var player = (from n in _context.Notification
 							where n.Player == to
-							select n.Endpoint).FirstOrDefault();
+							select n).FirstOrDefault();
 
-			if (endpoint == null)
+			if (player == null)
 				return;
 
-			SendNotification("Bantu", string.Format("{0} made a move", from), gameId, endpoint);
+			SendNotification(from, "Made a move", gameId, player.Endpoint);
 		}
 
 		private void SendNotification(string title, string message, string gameId, string endpoint)

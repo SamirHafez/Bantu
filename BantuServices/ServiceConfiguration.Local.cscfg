@@ -11,6 +11,7 @@
     <Instances count="1" />
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="DataConnectionString" value="DefaultEndpointsProtocol=https;AccountName=bantu;AccountKey=wA4oBSutAQRzg/wggHFxqruJ1AdrNs5BA64q1LXD/7A7RgE/DXciXG+R480zNM3z/nq5SOwkQlfq9F2HX0f4IQ==" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>

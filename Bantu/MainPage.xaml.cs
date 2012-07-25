@@ -11,6 +11,7 @@ using Bantu.ViewModel;
 using Bantu.TableStorage;
 using System.Windows.Controls;
 using Microsoft.Phone.Net.NetworkInformation;
+using Bantu.Notification;
 
 namespace Bantu
 {
@@ -52,6 +53,8 @@ namespace Bantu
 				NavigationService.Navigate(new Uri("/LoginRegisterPage.xaml", UriKind.Relative));
 				return;
 			}
+
+			Manager.EnableNotifications(Player.Name);
 
 			while (NavigationService.BackStack.Any())
 				NavigationService.RemoveBackEntry();
