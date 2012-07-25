@@ -8,8 +8,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using Bantu.Azure.Model;
 using System.ComponentModel;
+using Bantu.TableStorage;
 
 namespace Bantu.ViewModel
 {

@@ -4,8 +4,7 @@ using Microsoft.Phone.Controls;
 using Bantu.ViewModel;
 using Bantu.Controls;
 using Microsoft.Phone.Shell;
-using Bantu.Azure;
-using Bantu.Azure.Model;
+using Bantu.TableStorage;
 
 namespace Bantu
 {
@@ -42,7 +41,7 @@ namespace Bantu
             if (Game.Play(cup))
             {
                 SystemTray.ProgressIndicator.IsVisible = true;
-                Context.UpdateGame(Game, game =>
+                Context.UpdateGame(Player.Name, Game.ToGame(), game =>
                 {
                     Game.LastUpdate = game.Timestamp;
                     Dispatcher.BeginInvoke(delegate()

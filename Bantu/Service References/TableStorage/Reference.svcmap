@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="326e4fd5-af39-4b10-9397-d5b6266663af" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>true</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.ObjectModel.ObservableCollection`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>false</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://bantuservices.cloudapp.net/TableStorageService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="TableStorageService.xsd" MetadataType="Schema" ID="a153c88f-5a98-46fa-bf09-e34170d65fc1" SourceId="1" SourceUrl="http://bantuservices.cloudapp.net/TableStorageService.svc?xsd=xsd3" />
+    <MetadataFile FileName="TableStorageService.wsdl" MetadataType="Wsdl" ID="c58413f0-7748-4787-8714-2a2e2daf7ca7" SourceId="1" SourceUrl="http://bantuservices.cloudapp.net/TableStorageService.svc?wsdl" />
+    <MetadataFile FileName="TableStorageService1.xsd" MetadataType="Schema" ID="31b81d43-1609-4926-b4ba-9e216612eddc" SourceId="1" SourceUrl="http://bantuservices.cloudapp.net/TableStorageService.svc?xsd=xsd2" />
+    <MetadataFile FileName="TableStorageService.disco" MetadataType="Disco" ID="f6a79939-893a-499a-a0ad-7465c45e5b9c" SourceId="1" SourceUrl="http://bantuservices.cloudapp.net/TableStorageService.svc?disco" />
+    <MetadataFile FileName="TableStorageService2.xsd" MetadataType="Schema" ID="fbff02f4-5513-4210-9572-ae0e8c3cfea7" SourceId="1" SourceUrl="http://bantuservices.cloudapp.net/TableStorageService.svc?xsd=xsd0" />
+    <MetadataFile FileName="TableStorageService3.xsd" MetadataType="Schema" ID="55af5bc9-6645-41b9-b103-7d3b6a8f8e0b" SourceId="1" SourceUrl="http://bantuservices.cloudapp.net/TableStorageService.svc?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

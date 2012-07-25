@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="66086967-c914-45eb-8c0f-567566fea76c" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://bantuservices.cloudapp.net:8080/NotificationService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="NotificationService.xsd" MetadataType="Schema" ID="4efb3ecf-0e5f-4bc1-949e-0d71af38af77" SourceId="1" SourceUrl="http://bantuservices.cloudapp.net:8080/NotificationService.svc?xsd=xsd1" />
+    <MetadataFile FileName="NotificationService1.xsd" MetadataType="Schema" ID="56b057ca-45c7-4164-8b03-3a345b7b2f5b" SourceId="1" SourceUrl="http://bantuservices.cloudapp.net:8080/NotificationService.svc?xsd=xsd0" />
+    <MetadataFile FileName="NotificationService.wsdl" MetadataType="Wsdl" ID="51e5bdf2-8b1b-49a7-9df5-d6d49801db20" SourceId="1" SourceUrl="http://bantuservices.cloudapp.net:8080/NotificationService.svc?wsdl" />
+    <MetadataFile FileName="NotificationService.disco" MetadataType="Disco" ID="c4de3862-8653-4f77-830d-68a22a1228e6" SourceId="1" SourceUrl="http://bantuservices.cloudapp.net:8080/NotificationService.svc?disco" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

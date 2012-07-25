@@ -48,9 +48,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Data.Services.Client">
-      <HintPath>..\packages\Phone.Storage.1.0.1\lib\sl40-wp71\Data.Services.Client.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Advertising.Mobile, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="Microsoft.Advertising.Mobile.UI, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="Microsoft.Phone" />
@@ -59,13 +56,8 @@
       <HintPath>..\packages\SilverlightToolkitWP.4.2012.6.25\lib\sl4-windowsphone71\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Phone.Interop" />
-    <Reference Include="Phone.Storage">
-      <HintPath>..\packages\Phone.Storage.1.0.1\lib\sl40-wp71\Phone.Storage.dll</HintPath>
-    </Reference>
-    <Reference Include="SilverlightActivator">
-      <HintPath>..\packages\SilverlightActivator.1.0.4\lib\sl4-wp71\SilverlightActivator.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
@@ -80,11 +72,17 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Azure\Model\Game.cs">
-      <SubType>Code</SubType>
+    <Compile Include="Service References\Notification\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Azure\StorageInitializer.cs" />
-    <Compile Include="Azure\Context.cs" />
+    <Compile Include="Service References\TableStorage\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="TableStorage\Context.cs" />
     <Compile Include="BantumiGamePage.xaml.cs">
       <DependentUpon>BantumiGamePage.xaml</DependentUpon>
     </Compile>
@@ -100,7 +98,6 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Azure\Model\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\CupVM.cs" />
     <Compile Include="ViewModel\GameVM.cs" />
@@ -140,6 +137,47 @@
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml" />
+    <None Include="Service References\Notification\NotificationService.disco" />
+    <None Include="Service References\Notification\configuration91.svcinfo" />
+    <None Include="Service References\Notification\configuration.svcinfo" />
+    <None Include="Service References\Notification\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\TableStorage\Bantu.TableStorage.Game.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TableStorage\Bantu.TableStorage.Player.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TableStorage\TableStorageService.disco" />
+    <None Include="Service References\TableStorage\configuration91.svcinfo" />
+    <None Include="Service References\TableStorage\configuration.svcinfo" />
+    <None Include="Service References\TableStorage\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="ServiceReferences.ClientConfig" />
+    <None Include="Service References\Notification\NotificationService.wsdl" />
+    <None Include="Service References\Notification\NotificationService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Notification\NotificationService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TableStorage\TableStorageService.wsdl" />
+    <None Include="Service References\TableStorage\TableStorageService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TableStorage\TableStorageService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TableStorage\TableStorageService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TableStorage\TableStorageService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="ApplicationIcon.png">
@@ -157,7 +195,13 @@
     <Content Include="Icons\appbar.transport.play.rest.png" />
     <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\Notification\" />
+    <WCFMetadataStorage Include="Service References\TableStorage\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

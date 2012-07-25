@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="TableStorageService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://bantuservices.cloudapp.net/TableStorageService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://bantuservices.cloudapp.net/TableStorageService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://bantuservices.cloudapp.net/TableStorageService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/StorageService.Model" />
+      <xsd:import schemaLocation="http://bantuservices.cloudapp.net/TableStorageService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Microsoft.WindowsAzure.StorageClient" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IStorageService_Reset_InputMessage">
+    <wsdl:part name="parameters" element="tns:Reset" />
+  </wsdl:message>
+  <wsdl:message name="IStorageService_Reset_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ResetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStorageService_CreatePlayer_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreatePlayer" />
+  </wsdl:message>
+  <wsdl:message name="IStorageService_CreatePlayer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreatePlayerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStorageService_CreateGame_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateGame" />
+  </wsdl:message>
+  <wsdl:message name="IStorageService_CreateGame_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateGameResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStorageService_ValidatePlayer_InputMessage">
+    <wsdl:part name="parameters" element="tns:ValidatePlayer" />
+  </wsdl:message>
+  <wsdl:message name="IStorageService_ValidatePlayer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ValidatePlayerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStorageService_PlayerGames_InputMessage">
+    <wsdl:part name="parameters" element="tns:PlayerGames" />
+  </wsdl:message>
+  <wsdl:message name="IStorageService_PlayerGames_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PlayerGamesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStorageService_GetGame_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGame" />
+  </wsdl:message>
+  <wsdl:message name="IStorageService_GetGame_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGameResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStorageService_UpdateGame_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateGame" />
+  </wsdl:message>
+  <wsdl:message name="IStorageService_UpdateGame_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateGameResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStorageService_ScorePlayer_InputMessage">
+    <wsdl:part name="parameters" element="tns:ScorePlayer" />
+  </wsdl:message>
+  <wsdl:message name="IStorageService_ScorePlayer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ScorePlayerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStorageService_JoinGame_InputMessage">
+    <wsdl:part name="parameters" element="tns:JoinGame" />
+  </wsdl:message>
+  <wsdl:message name="IStorageService_JoinGame_OutputMessage">
+    <wsdl:part name="parameters" element="tns:JoinGameResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IStorageService">
+    <wsdl:operation name="Reset">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStorageService/Reset" message="tns:IStorageService_Reset_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStorageService/ResetResponse" message="tns:IStorageService_Reset_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreatePlayer">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStorageService/CreatePlayer" message="tns:IStorageService_CreatePlayer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStorageService/CreatePlayerResponse" message="tns:IStorageService_CreatePlayer_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateGame">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStorageService/CreateGame" message="tns:IStorageService_CreateGame_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStorageService/CreateGameResponse" message="tns:IStorageService_CreateGame_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ValidatePlayer">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStorageService/ValidatePlayer" message="tns:IStorageService_ValidatePlayer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStorageService/ValidatePlayerResponse" message="tns:IStorageService_ValidatePlayer_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="PlayerGames">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStorageService/PlayerGames" message="tns:IStorageService_PlayerGames_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStorageService/PlayerGamesResponse" message="tns:IStorageService_PlayerGames_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGame">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStorageService/GetGame" message="tns:IStorageService_GetGame_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStorageService/GetGameResponse" message="tns:IStorageService_GetGame_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateGame">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStorageService/UpdateGame" message="tns:IStorageService_UpdateGame_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStorageService/UpdateGameResponse" message="tns:IStorageService_UpdateGame_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ScorePlayer">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStorageService/ScorePlayer" message="tns:IStorageService_ScorePlayer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStorageService/ScorePlayerResponse" message="tns:IStorageService_ScorePlayer_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="JoinGame">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStorageService/JoinGame" message="tns:IStorageService_JoinGame_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStorageService/JoinGameResponse" message="tns:IStorageService_JoinGame_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IStorageService" type="tns:IStorageService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Reset">
+      <soap:operation soapAction="http://tempuri.org/IStorageService/Reset" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreatePlayer">
+      <soap:operation soapAction="http://tempuri.org/IStorageService/CreatePlayer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateGame">
+      <soap:operation soapAction="http://tempuri.org/IStorageService/CreateGame" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidatePlayer">
+      <soap:operation soapAction="http://tempuri.org/IStorageService/ValidatePlayer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PlayerGames">
+      <soap:operation soapAction="http://tempuri.org/IStorageService/PlayerGames" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGame">
+      <soap:operation soapAction="http://tempuri.org/IStorageService/GetGame" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateGame">
+      <soap:operation soapAction="http://tempuri.org/IStorageService/UpdateGame" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ScorePlayer">
+      <soap:operation soapAction="http://tempuri.org/IStorageService/ScorePlayer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="JoinGame">
+      <soap:operation soapAction="http://tempuri.org/IStorageService/JoinGame" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TableStorageService">
+    <wsdl:port name="BasicHttpBinding_IStorageService" binding="tns:BasicHttpBinding_IStorageService">
+      <soap:address location="http://bantuservices.cloudapp.net/TableStorageService.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="4ce6c45b-9fcc-4156-8f33-0fd24d784111" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>true</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.ObjectModel.ObservableCollection`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>false</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://bantuservices.cloudapp.net:8080/NotificationService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="NotificationService.xsd" MetadataType="Schema" ID="97dd4402-55a5-4810-a963-1411f3f9327f" SourceId="1" SourceUrl="http://bantuservices.cloudapp.net:8080/NotificationService.svc?xsd=xsd1" />
+    <MetadataFile FileName="NotificationService1.xsd" MetadataType="Schema" ID="11c596e3-4071-4ad5-a3d9-dd1163fe1656" SourceId="1" SourceUrl="http://bantuservices.cloudapp.net:8080/NotificationService.svc?xsd=xsd0" />
+    <MetadataFile FileName="NotificationService.wsdl" MetadataType="Wsdl" ID="1f745737-ab5d-4f54-89bb-f00e21cee993" SourceId="1" SourceUrl="http://bantuservices.cloudapp.net:8080/NotificationService.svc?wsdl" />
+    <MetadataFile FileName="NotificationService.disco" MetadataType="Disco" ID="11e6c7c5-0bf3-4838-9c3f-2a00e9cbc9ca" SourceId="1" SourceUrl="http://bantuservices.cloudapp.net:8080/NotificationService.svc?disco" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

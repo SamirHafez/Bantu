@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="BantuServices" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="1" osVersion="*" schemaVersion="2012-05.1.7">
+  <Role name="StorageService">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=bantu;AccountKey=wA4oBSutAQRzg/wggHFxqruJ1AdrNs5BA64q1LXD/7A7RgE/DXciXG+R480zNM3z/nq5SOwkQlfq9F2HX0f4IQ==" />
+      <Setting name="DataConnectionString" value="DefaultEndpointsProtocol=https;AccountName=bantu;AccountKey=wA4oBSutAQRzg/wggHFxqruJ1AdrNs5BA64q1LXD/7A7RgE/DXciXG+R480zNM3z/nq5SOwkQlfq9F2HX0f4IQ==" />
+    </ConfigurationSettings>
+  </Role>
+  <Role name="NotificationService">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=bantu;AccountKey=wA4oBSutAQRzg/wggHFxqruJ1AdrNs5BA64q1LXD/7A7RgE/DXciXG+R480zNM3z/nq5SOwkQlfq9F2HX0f4IQ==" />
+    </ConfigurationSettings>
+  </Role>
+</ServiceConfiguration>

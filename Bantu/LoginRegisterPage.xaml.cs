@@ -4,11 +4,10 @@ using System.Windows;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.IO.IsolatedStorage;
-using Bantu.Azure;
 using Bantu.ViewModel;
-using Bantu.Azure.Model;
 using System.Text;
 using System.Security.Cryptography;
+using Bantu.TableStorage;
 
 namespace Bantu
 {

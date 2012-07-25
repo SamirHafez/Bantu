@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/StorageService.Model" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/StorageService.Model" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://bantuservices.cloudapp.net/TableStorageService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Microsoft.WindowsAzure.StorageClient" />
+  <xs:complexType name="Player">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/Microsoft.WindowsAzure.StorageClient" base="q1:TableServiceEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Credential" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Score" type="xs:long" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Player" nillable="true" type="tns:Player" />
+  <xs:complexType name="Game">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q2="http://schemas.datacontract.org/2004/07/Microsoft.WindowsAzure.StorageClient" base="q2:TableServiceEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Client" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Client0" type="xs:int" />
+          <xs:element minOccurs="0" name="Client1" type="xs:int" />
+          <xs:element minOccurs="0" name="Client2" type="xs:int" />
+          <xs:element minOccurs="0" name="Client3" type="xs:int" />
+          <xs:element minOccurs="0" name="Client4" type="xs:int" />
+          <xs:element minOccurs="0" name="Client5" type="xs:int" />
+          <xs:element minOccurs="0" name="Host" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Host0" type="xs:int" />
+          <xs:element minOccurs="0" name="Host1" type="xs:int" />
+          <xs:element minOccurs="0" name="Host2" type="xs:int" />
+          <xs:element minOccurs="0" name="Host3" type="xs:int" />
+          <xs:element minOccurs="0" name="Host4" type="xs:int" />
+          <xs:element minOccurs="0" name="Host5" type="xs:int" />
+          <xs:element minOccurs="0" name="ScoreClient" type="xs:int" />
+          <xs:element minOccurs="0" name="ScoreHost" type="xs:int" />
+          <xs:element minOccurs="0" name="State" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Game" nillable="true" type="tns:Game" />
+  <xs:complexType name="ArrayOfGame">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Game" nillable="true" type="tns:Game" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfGame" nillable="true" type="tns:ArrayOfGame" />
+</xs:schema>
