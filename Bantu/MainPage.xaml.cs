@@ -17,9 +17,8 @@ namespace Bantu
 {
 	public partial class MainPage : PhoneApplicationPage
 	{
-		public static PlayerVM Player { get; set; }
-		public static ObservableCollection<GameVM> Games { get; set; }
-		public static bool NewPlayer { get; set; }
+		public PlayerVM Player { get; set; }
+		public ObservableCollection<GameVM> Games { get; set; }
 
 		public MainPage()
 		{
@@ -27,6 +26,7 @@ namespace Bantu
 			DataContext = this;
 
 			Games = new ObservableCollection<GameVM>();
+			Player = new PlayerVM();
 		}
 
 		public void Initialize(Object sender, EventArgs e)
@@ -41,7 +41,10 @@ namespace Bantu
 
 			if (settings.Contains("player"))
 			{
-				Player = settings["player"] as PlayerVM;
+				var player = settings["player"] as PlayerVM;
+				Player.Name = player.Name;
+				Player.Score = player.Score;
+				Player.Credential = player.Credential;
 				userPi.Header = Player.Name;
 			}
 			else 
@@ -55,9 +58,8 @@ namespace Bantu
 			while (NavigationService.BackStack.Any())
 				NavigationService.RemoveBackEntry();
 
-			if (NewPlayer)
+			if (NavigationContext.QueryString.ContainsKey("game"))
 			{
-				NewPlayer = false;
 				var result = MessageBox.Show("Since you are a new player would you like to learn how to play?", "NEW PLAYER", MessageBoxButton.OKCancel);
 				if (result == MessageBoxResult.OK)
 					NavigationService.Navigate(new Uri("/Help.xaml", UriKind.Relative));
@@ -89,9 +91,6 @@ namespace Bantu
 
 		private void OpenGame(GameVM game)
 		{
-			if (game.Client == null || !game.IsMyTurn)
-				return;
-
 			NavigationService.Navigate(new Uri("/BantumiGamePage.xaml?game=" + game.Id, UriKind.Relative));
 		}
 
@@ -135,10 +134,16 @@ namespace Bantu
 					foreach (var game in games.Select(g => new GameVM(g)))
 						Games.Add(game);
 
-					var settings = IsolatedStorageSettings.ApplicationSettings;
-					settings["games"] = Games.ToArray();
-
-					SystemTray.ProgressIndicator.IsVisible = false;
+					Context.ValidatePlayer(Player.Name, Player.Credential, player =>
+					{
+						Dispatcher.BeginInvoke(delegate
+						{
+							Player.Score = player.Score;
+							SystemTray.ProgressIndicator.IsVisible = false;
+						});
+					}, () =>
+					{
+					});
 				});
 			}, () =>
 			{

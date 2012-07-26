@@ -70,7 +70,6 @@ namespace Bantu
                                     {
                                         Dispatcher.BeginInvoke(delegate()
                                         {
-                                            MainPage.Player.Score = player.Score;
                                             NavigationService.GoBack();
                                         });
                                     }, () => { });

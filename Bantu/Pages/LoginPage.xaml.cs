@@ -66,7 +66,7 @@ namespace Bantu.Pages
 						settings["player"] = new PlayerVM(player);
 						SystemTray.ProgressIndicator.IsVisible = false;
 
-						NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+						NavigationService.Navigate(new Uri("/MainPage.xaml?new=true", UriKind.Relative));
 					});
 				}, () =>
 				{
