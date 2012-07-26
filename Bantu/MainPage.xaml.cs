@@ -26,14 +26,6 @@ namespace Bantu
 			InitializeComponent();
 			DataContext = this;
 
-			var settings = IsolatedStorageSettings.ApplicationSettings;
-
-			if (settings.Contains("player"))
-			{
-				Player = settings["player"] as PlayerVM;
-				userPi.Header = Player.Name;
-			}
-
 			Games = new ObservableCollection<GameVM>();
 		}
 
@@ -45,9 +37,16 @@ namespace Bantu
 				NavigationService.GoBack();
 			}
 
-			if (Player == null)
+			var settings = IsolatedStorageSettings.ApplicationSettings;
+
+			if (settings.Contains("player"))
 			{
-				NavigationService.Navigate(new Uri("/LoginRegisterPage.xaml", UriKind.Relative));
+				Player = settings["player"] as PlayerVM;
+				userPi.Header = Player.Name;
+			}
+			else 
+			{
+				NavigationService.Navigate(new Uri("/Pages/LoginPage.xaml", UriKind.Relative));
 				return;
 			}
 
