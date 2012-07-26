@@ -77,23 +77,13 @@ namespace Bantu
 
         public void SetPlayer(Player player)
         {
-            Context.PlayerGames(player.Name, games =>
-            {
                 Dispatcher.BeginInvoke(delegate()
                 {
                     var settings = IsolatedStorageSettings.ApplicationSettings;
                     settings.Add("player", new PlayerVM(player));
-                    settings.Add("games", games.Select(g => new GameVM(g)).ToList());
                     SystemTray.ProgressIndicator.IsVisible = false;
                     NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
                 });
-            }, () => 
-            {
-                var settings = IsolatedStorageSettings.ApplicationSettings;
-                settings.Add("player", new PlayerVM(player));
-                SystemTray.ProgressIndicator.IsVisible = false;
-                NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
-            });
         }
 
         private static string ConvertToString(byte[] buff)

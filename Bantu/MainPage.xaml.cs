@@ -34,10 +34,7 @@ namespace Bantu
 				userPi.Header = Player.Name;
 			}
 
-			if (settings.Contains("games"))
-				Games = new ObservableCollection<GameVM>(settings["games"] as IEnumerable<GameVM>);
-			else
-				Games = new ObservableCollection<GameVM>();
+			Games = new ObservableCollection<GameVM>();
 		}
 
 		public void Initialize(Object sender, EventArgs e)
@@ -59,8 +56,6 @@ namespace Bantu
 			while (NavigationService.BackStack.Any())
 				NavigationService.RemoveBackEntry();
 
-			RemoveWonGames();
-
 			if (NewPlayer)
 			{
 				NewPlayer = false;
@@ -68,17 +63,8 @@ namespace Bantu
 				if (result == MessageBoxResult.OK)
 					NavigationService.Navigate(new Uri("/Help.xaml", UriKind.Relative));
 			}
-		}
-
-		private static void RemoveWonGames()
-		{
-			var removables = new List<GameVM>();
-			removables.AddRange(Games.Where(g => g.State == GameState.Finished));
-			foreach (var removable in removables)
-			{
-				Player.Score += removable.Winner.Score;
-				Games.Remove(removable);
-			}
+			else
+				Refresh(this, null);
 		}
 
 		public void GoToGame(Object sender, EventArgs e)
@@ -140,24 +126,24 @@ namespace Bantu
 
 		public void Refresh(Object sender, EventArgs e)
 		{
-            SystemTray.ProgressIndicator.IsVisible = true;
+			SystemTray.ProgressIndicator.IsVisible = true;
 
-            Context.PlayerGames(Player.Name, games => 
-            {
-                Dispatcher.BeginInvoke(delegate 
-                {
-                    Games.Clear();
-                    foreach (var game in games.Select(g => new GameVM(g)))
-                        Games.Add(game);
+			Context.PlayerGames(Player.Name, games =>
+			{
+				Dispatcher.BeginInvoke(delegate
+				{
+					Games.Clear();
+					foreach (var game in games.Select(g => new GameVM(g)))
+						Games.Add(game);
 
-                    var settings = IsolatedStorageSettings.ApplicationSettings;
-                    settings["games"] = Games.ToArray();
+					var settings = IsolatedStorageSettings.ApplicationSettings;
+					settings["games"] = Games.ToArray();
 
-                    SystemTray.ProgressIndicator.IsVisible = false;
-                });
-            }, () => 
-            {
-            });
+					SystemTray.ProgressIndicator.IsVisible = false;
+				});
+			}, () =>
+			{
+			});
 		}
 
 		public void JoinRandom(Object sender, EventArgs e)
