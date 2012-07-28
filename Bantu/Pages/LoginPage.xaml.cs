@@ -87,7 +87,7 @@ namespace Bantu.Pages
 				{
                     Dispatcher.BeginInvoke(delegate 
                     {
-                        MessageBox.Show("The declared username is already registered (or contains illegal characters) with Bantu. Consider choosing a new name.");
+                        MessageBox.Show("The declared username is already registered with Bantu (or it contains illegal characters). Consider choosing a new name.");
                         var swtStore = Application.Current.Resources["swtStore"] as SimpleWebTokenStore;
 
                         tbUsername.Text = swtStore.SimpleWebToken.Claims[ClaimTypes.Name];
