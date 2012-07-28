@@ -67,7 +67,7 @@
   <ItemGroup>
     <Compile Include="AzureLocalStorageTraceListener.cs" />
     <Compile Include="Context.cs" />
-    <Compile Include="Model\Notification.cs" />
+    <Compile Include="Model\Player.cs" />
     <Compile Include="NotificationService.svc.cs">
       <DependentUpon>NotificationService.svc</DependentUpon>
     </Compile>

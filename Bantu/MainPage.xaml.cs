@@ -17,7 +17,7 @@ namespace Bantu
 {
 	public partial class MainPage : PhoneApplicationPage
 	{
-		public PlayerVM Player { get; set; }
+		public static PlayerVM Player { get; set; }
 		public ObservableCollection<GameVM> Games { get; set; }
 
 		public MainPage()
@@ -58,7 +58,7 @@ namespace Bantu
 			while (NavigationService.BackStack.Any())
 				NavigationService.RemoveBackEntry();
 
-			if (NavigationContext.QueryString.ContainsKey("game"))
+			if (NavigationContext.QueryString.ContainsKey("new"))
 			{
 				var result = MessageBox.Show("Since you are a new player would you like to learn how to play?", "NEW PLAYER", MessageBoxButton.OKCancel);
 				if (result == MessageBoxResult.OK)

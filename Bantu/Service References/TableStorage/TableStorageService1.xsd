@@ -6,6 +6,7 @@
       <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/Microsoft.WindowsAzure.StorageClient" base="q1:TableServiceEntity">
         <xs:sequence>
           <xs:element minOccurs="0" name="Credential" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Endpoint" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="Score" type="xs:long" />
         </xs:sequence>

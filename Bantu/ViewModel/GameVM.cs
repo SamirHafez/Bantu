@@ -89,6 +89,16 @@ namespace Bantu.ViewModel
 			}
 		}
 
+        public bool IsMyTurn
+        {
+            get
+            {
+                var me = MainPage.Player;
+
+                return State == GameState.Client ? Client.Name == me.Name : Host.Name == me.Name;
+            }
+        }
+
 		public GameVM()
 		{
 			Cups = new CupVM[14];

@@ -6,19 +6,16 @@ using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
 using StorageService.Model;
-using StorageService.Notification;
 
 namespace StorageService
 {
 	public class TableStorageService : IStorageService
 	{
 		private Context _context;
-		private NotificationServiceClient _notificationService;
 
 		public TableStorageService()
 		{
 			_context = new Context();
-			_notificationService = new NotificationServiceClient();
 		}
 
         public void Reset()
@@ -75,7 +72,6 @@ namespace StorageService
 			_context.UpdateObject(g);
 			_context.SaveChanges();
 
-			_notificationService.Notify(player, to, game.RowKey);
 			return g;
 		}
 
@@ -86,6 +82,8 @@ namespace StorageService
 						  select p).First();
 
 			player.Score += addedScore;
+
+            _context.UpdateObject(player);
 			_context.SaveChanges();
 
 			return player;

@@ -42,7 +42,7 @@ namespace StorageService.Model
         }
 
         public Game(string hostUsername)
-            : base("game", DateTime.Now.Ticks.ToString())
+            : base(DateTime.Now.Day.ToString(), Guid.NewGuid().ToString())
         {
             Host = hostUsername;
             Client = string.Empty;

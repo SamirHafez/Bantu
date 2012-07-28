@@ -12,7 +12,7 @@ namespace NotificationService
 	internal class Context : TableServiceContext
 	{
 		private static CloudStorageAccount account;
-		public const string NOTIFICATION = "notification";
+		public const string PLAYER = "player";
 
 		static Context()
 		{
@@ -23,8 +23,6 @@ namespace NotificationService
 			});
 			account = CloudStorageAccount.FromConfigurationSetting("DataConnectionString");
 			CloudTableClient tableClient = new CloudTableClient(account.TableEndpoint.AbsoluteUri, account.Credentials);
-            //tableClient.DeleteTableIfExist(NOTIFICATION);
-            tableClient.CreateTableIfNotExist(NOTIFICATION);
 		}
 
 		public Context()
@@ -32,9 +30,9 @@ namespace NotificationService
 		{
 		}
 
-		public IQueryable<Notification> Notification
+		public IQueryable<Player> Player
 		{
-			get { return this.CreateQuery<Notification>(NOTIFICATION); }
+			get { return this.CreateQuery<Player>(PLAYER); }
 		}
 	}
 }

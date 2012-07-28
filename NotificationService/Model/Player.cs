@@ -3,7 +3,7 @@ using System.Net;
 using System.Runtime.Serialization;
 using Microsoft.WindowsAzure.StorageClient;
 
-namespace StorageService.Model
+namespace NotificationService.Model
 {
     public class Player : TableServiceEntity
     {

@@ -39,12 +39,27 @@ namespace Bantu.Pages
 				RetrieveOrCreatePlayer(swtStore);
 		}
 
-		private void RetrieveOrCreatePlayer(SimpleWebTokenStore swtStore)
+        public void AlternativeName(object sender, EventArgs args) 
+        {
+            var swtStore = Application.Current.Resources["swtStore"] as SimpleWebTokenStore;
+
+            var name = tbUsername.Text;
+            var nameIdentifier = swtStore.SimpleWebToken.NameIdentifier;
+
+            RetrieveOrCreatePlayer(name, nameIdentifier);
+        }
+
+        private void RetrieveOrCreatePlayer(SimpleWebTokenStore swtStore) 
+        {
+            var name = swtStore.SimpleWebToken.Claims[ClaimTypes.Name];
+            var nameIdentifier = swtStore.SimpleWebToken.NameIdentifier;
+
+            RetrieveOrCreatePlayer(name, nameIdentifier);
+        }
+
+		private void RetrieveOrCreatePlayer(string name, string nameIdentifier)
 		{
 			SystemTray.ProgressIndicator.IsVisible = true;
-
-			var name = swtStore.SimpleWebToken.Claims[ClaimTypes.Name];
-			var nameIdentifier = swtStore.SimpleWebToken.NameIdentifier;
 
 			Context.ValidatePlayer(name, nameIdentifier, player =>
 			{
@@ -70,6 +85,15 @@ namespace Bantu.Pages
 					});
 				}, () =>
 				{
+                    Dispatcher.BeginInvoke(delegate 
+                    {
+                        MessageBox.Show("The declared username is already registered (or contains illegal characters) with Bantu. Consider choosing a new name.");
+                        var swtStore = Application.Current.Resources["swtStore"] as SimpleWebTokenStore;
+
+                        tbUsername.Text = swtStore.SimpleWebToken.Claims[ClaimTypes.Name];
+
+                        spAlternate.Visibility = Visibility.Visible;
+                    });
 				});
 			});
 		}

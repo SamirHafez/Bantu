@@ -7,6 +7,7 @@ using Microsoft.Phone.Shell;
 using Bantu.TableStorage;
 using System.Linq;
 using System.IO.IsolatedStorage;
+using Bantu.Notification;
 
 namespace Bantu
 {
@@ -15,9 +16,12 @@ namespace Bantu
         public GameVM Game { get; private set; }
         public PlayerVM Player { get; set; }
 
+        private NotificationServiceClient _nsc;
+
         public BantumiGamePage()
         {
             InitializeComponent();
+            _nsc = new NotificationServiceClient();
         }
 
         public void Setup(object sender, EventArgs args)
@@ -66,7 +70,7 @@ namespace Bantu
                                 if (winner.Name == Player.Name)
                                 {
                                     MessageBox.Show("Congratulations, you won! You have earned " + score + " points.");
-                                    Context.ScorePlayer(Player.Name, score, player =>
+                                    Context.ScorePlayer(winner.Name, score, player =>
                                     {
                                         Dispatcher.BeginInvoke(delegate()
                                         {
@@ -88,15 +92,13 @@ namespace Bantu
                                 break;
                             case GameState.Client:
 								if (currentGameState != GameState.Client)
-									;
-									//NavigationService.GoBack();
+									_nsc.NotifyAsync(Player.Name, Game.Client.Name, Game.Id);
 								else
 									CupControl.AnimationDelayIndex = 0;
                                 break;
                             case GameState.Host:
 								if (currentGameState != GameState.Host)
-									;
-								//NavigationService.GoBack();
+									_nsc.NotifyAsync(Player.Name, Game.Host.Name, Game.Id);
 								else
 									CupControl.AnimationDelayIndex = 0;
                                 break;
