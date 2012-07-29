@@ -31,7 +31,7 @@ namespace Bantu
 
 		public void Initialize(Object sender, EventArgs e)
 		{
-			if (!InternetConectivity())
+            if (!NetworkInterface.GetIsNetworkAvailable())
 			{
 				MessageBox.Show("Bantu requires an active internet connection. Exiting.");
 				NavigationService.GoBack();
@@ -55,17 +55,36 @@ namespace Bantu
 
 			Manager.EnableNotifications(Player.Name);
 
+            Manager.GameEventToast += gameId => 
+            {
+                Context.GetGame(gameId, game =>
+                {
+                    Dispatcher.BeginInvoke(delegate
+                    {
+                        var gameVm = Games.First(g => g.Id == gameId);
+                        gameVm.Update(game);
+
+                        settings["games"] = Games.ToArray();
+                    });
+                }, () =>
+                {
+                });
+            };
+
 			while (NavigationService.BackStack.Any())
 				NavigationService.RemoveBackEntry();
 
-			if (NavigationContext.QueryString.ContainsKey("new"))
-			{
-				var result = MessageBox.Show("Since you are a new player would you like to learn how to play?", "NEW PLAYER", MessageBoxButton.OKCancel);
-				if (result == MessageBoxResult.OK)
-					NavigationService.Navigate(new Uri("/Help.xaml", UriKind.Relative));
-			}
-			else
-				Refresh(this, null);
+            if (NavigationContext.QueryString.ContainsKey("new"))
+            {
+                var result = MessageBox.Show("Since you are a new player would you like to learn how to play?", "NEW PLAYER", MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK)
+                    NavigationService.Navigate(new Uri("/Help.xaml", UriKind.Relative));
+            }
+            else
+            {
+                RefreshPlayer();
+                RefreshGames();
+            }
 		}
 
 		public void GoToGame(Object sender, EventArgs e)
@@ -82,11 +101,6 @@ namespace Bantu
 		public void AboutPage(Object sender, EventArgs e)
 		{
 			NavigationService.Navigate(new Uri("/About.xaml", UriKind.Relative));
-		}
-
-		private bool InternetConectivity()
-		{
-			return NetworkInterface.GetIsNetworkAvailable();
 		}
 
 		private void OpenGame(GameVM game)
@@ -122,7 +136,29 @@ namespace Bantu
 			});
 		}
 
-		public void Refresh(Object sender, EventArgs e)
+        public void Refresh(object sender, EventArgs args) 
+        {
+            RefreshPlayer();
+            RefreshGames();
+        }
+
+        private void RefreshPlayer() 
+        {
+            SystemTray.ProgressIndicator.IsVisible = true;
+
+            Context.ValidatePlayer(Player.Name, Player.Credential, player =>
+            {
+                Dispatcher.BeginInvoke(delegate
+                {
+                    Player.Score = player.Score;
+                    SystemTray.ProgressIndicator.IsVisible = false;
+                });
+            }, () =>
+            {
+            });
+        }
+
+		private void RefreshGames()
 		{
 			SystemTray.ProgressIndicator.IsVisible = true;
 
@@ -134,16 +170,10 @@ namespace Bantu
 					foreach (var game in games.Select(g => new GameVM(g)))
 						Games.Add(game);
 
-					Context.ValidatePlayer(Player.Name, Player.Credential, player =>
-					{
-						Dispatcher.BeginInvoke(delegate
-						{
-							Player.Score = player.Score;
-							SystemTray.ProgressIndicator.IsVisible = false;
-						});
-					}, () =>
-					{
-					});
+                    var settings = IsolatedStorageSettings.ApplicationSettings;
+                    settings["games"] = Games.ToArray();
+
+                    SystemTray.ProgressIndicator.IsVisible = false;
 				});
 			}, () =>
 			{
@@ -178,14 +208,6 @@ namespace Bantu
 					MessageBox.Show("Failed to join a challenge. Please try again.");
 				});
 			});
-		}
-
-		private void Panorama_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			Panorama panorama = (Panorama)sender;
-			PanoramaItem panoramaItem = (PanoramaItem)(panorama.SelectedItem);
-			if (panoramaItem.Name.Equals("agPi"))
-				Refresh(this, null);
 		}
 	}
 }

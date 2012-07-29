@@ -208,8 +208,15 @@ namespace Bantu.ViewModel
 			} while (stones != 0);
 
 			//IF END IN SCORE CUP, PLAY AGAIN (NO CHANGES TO GAMESTATE)
-			if (nextCup.IsScore)
-				return true;
+            if (nextCup.IsScore)
+            {
+                if (CupCount(current) == 0 || CupCount(other) == 0)
+                {
+                    Collect();
+                    State = GameState.Finished;
+                }
+                return true;
+            }
 
 			//IF END IN EMPTY CUP, SCORE 1 + OPONENT CUP
 			if (nextCup.Stones == 1)

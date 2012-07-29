@@ -18,6 +18,8 @@ namespace Bantu.Notification
 		private static HttpNotificationChannel _channel;
 		private static string _username;
 
+        public static event Action<string> GameEventToast = delegate { };
+
 		public static void EnableNotifications(string username)
 		{
 			_username = username;
@@ -67,6 +69,10 @@ namespace Bantu.Notification
 
 		private static void ToastReceived(object sender, NotificationEventArgs args)
 		{
+            //args.Collection.
+            var param = args.Collection["wp:Param"];
+            var gameId = param.Substring(param.IndexOf("=")+1);
+            GameEventToast(gameId);
 		}
 
 		private static void ErrorOccurred(object sender, NotificationChannelErrorEventArgs args)
