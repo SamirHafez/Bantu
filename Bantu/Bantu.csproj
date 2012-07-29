@@ -89,6 +89,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TableStorage\Context.cs" />
     <Compile Include="BantumiGamePage.xaml.cs">
       <DependentUpon>BantumiGamePage.xaml</DependentUpon>
@@ -106,6 +109,7 @@
     <Compile Include="ViewModel\CupVM.cs" />
     <Compile Include="ViewModel\GameVM.cs" />
     <Compile Include="ViewModel\PlayerVM.cs" />
+    <Compile Include="ViewModel\SettingsVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -137,6 +141,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\AccessControlResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Settings.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

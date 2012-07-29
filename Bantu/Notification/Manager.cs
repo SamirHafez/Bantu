@@ -69,7 +69,6 @@ namespace Bantu.Notification
 
 		private static void ToastReceived(object sender, NotificationEventArgs args)
 		{
-            //args.Collection.
             var param = args.Collection["wp:Param"];
             var gameId = param.Substring(param.IndexOf("=")+1);
             GameEventToast(gameId);

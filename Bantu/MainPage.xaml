@@ -27,8 +27,8 @@
                         <RowDefinition Height=".2*"/>
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <Rectangle Grid.Column="1" Grid.Row="1" Fill="{StaticResource PhoneAccentBrush}"></Rectangle>
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="SCORE" VerticalAlignment="Center"  HorizontalAlignment="Center" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeExtraLarge}" FontWeight="ExtraBold"/>
+                    <Rectangle Grid.Column="1" Grid.Row="1" Fill="{StaticResource PhoneAccentBrush}" Height="173"></Rectangle>
                     <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Player.Score}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" FontSize="72" FontWeight="ExtraBold"/>
                 </Grid>
             </controls:PanoramaItem>

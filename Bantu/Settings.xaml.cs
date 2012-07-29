@@ -19,5 +19,13 @@ namespace Bantu
         {
             InitializeComponent();
         }
+
+        public void EnableNotifications(object sender, EventArgs args) 
+        {
+        }
+
+        public void DisableNotifications(object sender, EventArgs args)
+        {
+        }
     }
 }
