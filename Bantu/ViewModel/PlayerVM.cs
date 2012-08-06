@@ -16,7 +16,7 @@ namespace Bantu.ViewModel
 	public class PlayerVM : INotifyPropertyChanged
 	{
 		public string Name { get; set; }
-		public string Credential { get; set; }
+		public string Identifier { get; set; }
 
 		private long _score;
 		public long Score
@@ -35,8 +35,8 @@ namespace Bantu.ViewModel
 
 		public PlayerVM(Player player)
 		{
-			Name = player.Name;
-			Credential = player.Credential;
+			Name = player.RowKey;
+			Identifier = player.Identifier;
 			Score = player.Score;
 		}
 

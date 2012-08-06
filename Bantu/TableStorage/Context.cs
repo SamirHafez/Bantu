@@ -24,7 +24,7 @@ namespace Bantu.TableStorage
 			sc.ResetAsync();
         }
 
-        public static void CreatePlayer(string username, string credential, Action<Player> success, Action failure)
+        public static void CreatePlayer(string username, string identifier, Action<Player> success, Action failure)
         {
 			var sc = new StorageServiceClient();
 			sc.CreatePlayerCompleted += (o, a) => 
@@ -34,7 +34,7 @@ namespace Bantu.TableStorage
 				else
 					failure();
 			};
-			sc.CreatePlayerAsync(username, credential);
+			sc.CreatePlayerAsync(username, identifier);
         }
 
         public static void CreateGame(string host, Action<Game> success, Action failure)
@@ -50,17 +50,30 @@ namespace Bantu.TableStorage
 			sc.CreateGameAsync(host);
         }
 
-        public static void ValidatePlayer(string username, string password, Action<Player> success, Action failure)
-        {
+		public static void GetPlayerByName(string username, Action<Player> success, Action failure)
+		{
 			var sc = new StorageServiceClient();
-			sc.ValidatePlayerCompleted += (o, a) =>
+			sc.GetPlayerByNameCompleted += (o, a) =>
 			{
 				if (a.Error == null)
 					success(a.Result);
 				else
 					failure();
 			};
-			sc.ValidatePlayerAsync(username, password);
+			sc.GetPlayerByNameAsync(username);
+		}
+
+		public static void GetPlayerByIdentifier(string identifier, Action<Player> success, Action failure)
+        {
+			var sc = new StorageServiceClient();
+			sc.GetPlayerByIdentifierCompleted += (o, a) =>
+			{
+				if (a.Error == null)
+					success(a.Result);
+				else
+					failure();
+			};
+			sc.GetPlayerByIdentifierAsync(identifier);
         }
 
         public static void PlayerGames(string username, Action<IEnumerable<Game>> success, Action failure)

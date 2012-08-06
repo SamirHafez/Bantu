@@ -19,6 +19,7 @@ namespace Bantu
 	{
 		public static PlayerVM Player { get; set; }
 		public ObservableCollection<GameVM> Games { get; set; }
+		public static bool NewPlayer { get; set; }
 
 		public MainPage()
 		{
@@ -44,7 +45,7 @@ namespace Bantu
 				var player = settings["player"] as PlayerVM;
 				Player.Name = player.Name;
 				Player.Score = player.Score;
-				Player.Credential = player.Credential;
+				Player.Identifier = player.Identifier;
 				userPi.Header = Player.Name;
 			}
 			else 
@@ -74,8 +75,9 @@ namespace Bantu
 			while (NavigationService.BackStack.Any())
 				NavigationService.RemoveBackEntry();
 
-            if (NavigationContext.QueryString.ContainsKey("new"))
+            if (NewPlayer)
             {
+				NewPlayer = false;
                 var result = MessageBox.Show("Since you are a new player would you like to learn how to play?", "NEW PLAYER", MessageBoxButton.OKCancel);
                 if (result == MessageBoxResult.OK)
                     NavigationService.Navigate(new Uri("/Help.xaml", UriKind.Relative));
@@ -146,7 +148,7 @@ namespace Bantu
         {
             SystemTray.ProgressIndicator.IsVisible = true;
 
-            Context.ValidatePlayer(Player.Name, Player.Credential, player =>
+            Context.GetPlayerByName(Player.Name, player =>
             {
                 Dispatcher.BeginInvoke(delegate
                 {

@@ -61,7 +61,7 @@ namespace Bantu.Pages
 		{
 			SystemTray.ProgressIndicator.IsVisible = true;
 
-			Context.ValidatePlayer(name, nameIdentifier, player =>
+			Context.GetPlayerByIdentifier(nameIdentifier, player =>
 			{
 				Dispatcher.BeginInvoke(delegate
 				{
@@ -81,7 +81,8 @@ namespace Bantu.Pages
 						settings["player"] = new PlayerVM(player);
 						SystemTray.ProgressIndicator.IsVisible = false;
 
-						NavigationService.Navigate(new Uri("/MainPage.xaml?new=true", UriKind.Relative));
+						MainPage.NewPlayer = true;
+						NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
 					});
 				}, () =>
 				{
@@ -92,7 +93,12 @@ namespace Bantu.Pages
 
                         tbUsername.Text = swtStore.SimpleWebToken.Claims[ClaimTypes.Name];
 
+						SignInControl.Visibility = System.Windows.Visibility.Collapsed;
+
                         spAlternate.Visibility = Visibility.Visible;
+
+						tbUsername.Focus();
+						tbUsername.SelectAll();
                     });
 				});
 			});

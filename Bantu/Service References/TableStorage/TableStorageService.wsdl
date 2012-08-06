@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="TableStorageService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="TableStorageService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import schemaLocation="http://bantuservices.cloudapp.net/TableStorageService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
@@ -26,11 +26,17 @@
   <wsdl:message name="IStorageService_CreateGame_OutputMessage">
     <wsdl:part name="parameters" element="tns:CreateGameResponse" />
   </wsdl:message>
-  <wsdl:message name="IStorageService_ValidatePlayer_InputMessage">
-    <wsdl:part name="parameters" element="tns:ValidatePlayer" />
+  <wsdl:message name="IStorageService_GetPlayerByName_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPlayerByName" />
   </wsdl:message>
-  <wsdl:message name="IStorageService_ValidatePlayer_OutputMessage">
-    <wsdl:part name="parameters" element="tns:ValidatePlayerResponse" />
+  <wsdl:message name="IStorageService_GetPlayerByName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPlayerByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="IStorageService_GetPlayerByIdentifier_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPlayerByIdentifier" />
+  </wsdl:message>
+  <wsdl:message name="IStorageService_GetPlayerByIdentifier_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPlayerByIdentifierResponse" />
   </wsdl:message>
   <wsdl:message name="IStorageService_PlayerGames_InputMessage">
     <wsdl:part name="parameters" element="tns:PlayerGames" />
@@ -75,9 +81,13 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IStorageService/CreateGame" message="tns:IStorageService_CreateGame_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IStorageService/CreateGameResponse" message="tns:IStorageService_CreateGame_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="ValidatePlayer">
-      <wsdl:input wsaw:Action="http://tempuri.org/IStorageService/ValidatePlayer" message="tns:IStorageService_ValidatePlayer_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IStorageService/ValidatePlayerResponse" message="tns:IStorageService_ValidatePlayer_OutputMessage" />
+    <wsdl:operation name="GetPlayerByName">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStorageService/GetPlayerByName" message="tns:IStorageService_GetPlayerByName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStorageService/GetPlayerByNameResponse" message="tns:IStorageService_GetPlayerByName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPlayerByIdentifier">
+      <wsdl:input wsaw:Action="http://tempuri.org/IStorageService/GetPlayerByIdentifier" message="tns:IStorageService_GetPlayerByIdentifier_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IStorageService/GetPlayerByIdentifierResponse" message="tns:IStorageService_GetPlayerByIdentifier_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="PlayerGames">
       <wsdl:input wsaw:Action="http://tempuri.org/IStorageService/PlayerGames" message="tns:IStorageService_PlayerGames_InputMessage" />
@@ -129,8 +139,17 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="ValidatePlayer">
-      <soap:operation soapAction="http://tempuri.org/IStorageService/ValidatePlayer" style="document" />
+    <wsdl:operation name="GetPlayerByName">
+      <soap:operation soapAction="http://tempuri.org/IStorageService/GetPlayerByName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPlayerByIdentifier">
+      <soap:operation soapAction="http://tempuri.org/IStorageService/GetPlayerByIdentifier" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

@@ -18,14 +18,19 @@ namespace StorageService
 			_context = new Context();
 		}
 
-        public void Reset()
-        {
-            throw new NotImplementedException();
-        }
-
-		public Player CreatePlayer(string username, string credential)
+		public void Reset()
 		{
-			var player = new Player(username, credential);
+			throw new NotImplementedException();
+		}
+
+		public Player CreatePlayer(string username, string identifier)
+		{
+			if ((from p in _context.Player
+				 where p.RowKey == username
+				 select p).FirstOrDefault() != null)
+				throw new Exception("Duplicate username");
+
+			var player = new Player(username, identifier);
 			_context.AddObject(Context.PLAYER, player);
 			_context.SaveChanges();
 
@@ -41,10 +46,17 @@ namespace StorageService
 			return game;
 		}
 
-		public Player ValidatePlayer(string username, string password)
+		public Player GetPlayerByName(string username)
 		{
 			return (from p in _context.Player
-					where p.Name == username && p.Credential == password
+					where p.RowKey == username
+					select p).First();
+		}
+
+		public Player GetPlayerByIdentifier(string nameIdentifier)
+		{
+			return (from p in _context.Player
+					where p.Identifier == nameIdentifier
 					select p).First();
 		}
 
@@ -78,12 +90,12 @@ namespace StorageService
 		public Player ScorePlayer(string playerId, int addedScore)
 		{
 			var player = (from p in _context.Player
-						  where p.Name == playerId
+						  where p.RowKey == playerId
 						  select p).First();
 
 			player.Score += addedScore;
 
-            _context.UpdateObject(player);
+			_context.UpdateObject(player);
 			_context.SaveChanges();
 
 			return player;
@@ -106,5 +118,5 @@ namespace StorageService
 
 			return game;
 		}
-    }
+	}
 }

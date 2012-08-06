@@ -16,13 +16,16 @@ namespace StorageService
 		void Reset();
 
 		[OperationContract]
-		Player CreatePlayer(string username, string credential);
+		Player CreatePlayer(string username, string identifier);
 
 		[OperationContract]
 		Game CreateGame(string host);
 
 		[OperationContract]
-		Player ValidatePlayer(string username, string password);
+		Player GetPlayerByName(string username);
+
+		[OperationContract]
+		Player GetPlayerByIdentifier(string nameIdentifier);
 
 		[OperationContract]
 		IEnumerable<Game> PlayerGames(string username);

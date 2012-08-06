@@ -7,12 +7,12 @@
             </basicHttpBinding>
         </bindings>
         <client>
-            <endpoint address="http://bantuservices.cloudapp.net:8080/NotificationService.svc"
-                binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_INotificationService"
-                contract="Notification.INotificationService" name="BasicHttpBinding_INotificationService" />
             <endpoint address="http://bantuservices.cloudapp.net/TableStorageService.svc"
                 binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IStorageService"
                 contract="TableStorage.IStorageService" name="BasicHttpBinding_IStorageService" />
+            <endpoint address="http://bantuservices.cloudapp.net:8080/NotificationService.svc"
+                binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_INotificationService"
+                contract="Notification.INotificationService" name="BasicHttpBinding_INotificationService" />
         </client>
     </system.serviceModel>
 </configuration>
