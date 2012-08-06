@@ -56,8 +56,13 @@ namespace Bantu.Notification
 
 		private static void WireChannel(HttpNotificationChannel channel)
 		{
+			channel.ChannelUriUpdated -= ChannelUpdated;
 			channel.ChannelUriUpdated += ChannelUpdated;
+
+			channel.ShellToastNotificationReceived -= ToastReceived;
 			channel.ShellToastNotificationReceived += ToastReceived;
+
+			channel.ErrorOccurred -= ErrorOccurred;
 			channel.ErrorOccurred += ErrorOccurred;
 		}
 

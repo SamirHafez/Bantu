@@ -20,6 +20,7 @@ namespace Bantu
 		public static PlayerVM Player { get; set; }
 		public ObservableCollection<GameVM> Games { get; set; }
 		public static bool NewPlayer { get; set; }
+		public SettingsVM Settings { get; set; }
 
 		public MainPage()
 		{
@@ -28,6 +29,9 @@ namespace Bantu
 
 			Games = new ObservableCollection<GameVM>();
 			Player = new PlayerVM();
+			Settings = new SettingsVM();
+
+			Manager.GameEventToast += ReceivedToast;
 		}
 
 		public void Initialize(Object sender, EventArgs e)
@@ -54,26 +58,14 @@ namespace Bantu
 				return;
 			}
 
-			Manager.EnableNotifications(Player.Name);
-
-            Manager.GameEventToast += gameId => 
-            {
-                Context.GetGame(gameId, game =>
-                {
-                    Dispatcher.BeginInvoke(delegate
-                    {
-                        var gameVm = Games.First(g => g.Id == gameId);
-                        gameVm.Update(game);
-
-                        settings["games"] = Games.ToArray();
-                    });
-                }, () =>
-                {
-                });
-            };
-
 			while (NavigationService.BackStack.Any())
 				NavigationService.RemoveBackEntry();
+
+			if (settings.Contains("settings"))
+				Settings.Notifications = (settings["settings"] as SettingsVM).Notifications;
+
+			if (Settings.Notifications)
+				Manager.EnableNotifications(Player.Name);
 
             if (NewPlayer)
             {
@@ -87,6 +79,23 @@ namespace Bantu
                 RefreshPlayer();
                 RefreshGames();
             }
+		}
+
+		private void ReceivedToast(string gameId)
+		{
+			Context.GetGame(gameId, game =>
+			{
+				Dispatcher.BeginInvoke(delegate
+				{
+					var gameVm = Games.First(g => g.Id == gameId);
+					gameVm.Update(game);
+
+					var settings = IsolatedStorageSettings.ApplicationSettings;
+					settings["games"] = Games.ToArray();
+				});
+			}, () =>
+			{
+			});
 		}
 
 		public void GoToGame(Object sender, EventArgs e)
@@ -103,6 +112,11 @@ namespace Bantu
 		public void AboutPage(Object sender, EventArgs e)
 		{
 			NavigationService.Navigate(new Uri("/About.xaml", UriKind.Relative));
+		}
+
+		public void SettingsPage(Object sender, EventArgs e)
+		{
+			NavigationService.Navigate(new Uri("/Settings.xaml", UriKind.Relative));
 		}
 
 		private void OpenGame(GameVM game)

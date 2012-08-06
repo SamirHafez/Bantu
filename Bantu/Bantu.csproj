@@ -173,6 +173,7 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="Icons\appbar.feature.settings.rest.png" />
     <Content Include="Icons\appbar.sync.rest.png" />
     <Content Include="ServiceReferences.ClientConfig" />
     <None Include="Service References\Notification\NotificationService.wsdl" />

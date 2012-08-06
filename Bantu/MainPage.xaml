@@ -84,6 +84,7 @@
             <shell:ApplicationBarIconButton IconUri="/Icons/appbar.transport.play.rest.png" Text="Quick Play" Click="JoinRandom"/>
             <shell:ApplicationBarIconButton IconUri="/Icons/appbar.add.rest.png" Text="Create Game" Click="CreateGame"/>
             <shell:ApplicationBarIconButton IconUri="/Icons/appbar.sync.rest.png" Text="Sync" Click="Refresh"/>
+            <shell:ApplicationBarIconButton IconUri="/Icons/appbar.feature.settings.rest.png" Text="Settings" Click="SettingsPage"/>
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="Help" Click="HelpPage"/>
                 <shell:ApplicationBarMenuItem Text="About" Click="AboutPage" />

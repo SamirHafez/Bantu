@@ -13,7 +13,7 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True" Loaded="Setup">
 
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
@@ -27,7 +27,7 @@
         </StackPanel>
 
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <toolkit:ToggleSwitch Header="Push Notifications" Checked="EnableNotifications" Unchecked="DisableNotifications" IsChecked="True"></toolkit:ToggleSwitch>
+            <toolkit:ToggleSwitch Name="tsNotification" Header="Push Notifications" Checked="EnableNotifications" Unchecked="DisableNotifications" IsChecked="false"></toolkit:ToggleSwitch>
         </Grid>
     </Grid>
 
