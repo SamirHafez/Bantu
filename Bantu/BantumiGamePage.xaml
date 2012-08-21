@@ -85,7 +85,7 @@
                 </Grid.ColumnDefinitions>
                 <Controls:CupControl x:Name="ccP2Score" Margin="0,0,3,0" />
                 <Controls:CupControl x:Name="ccP1Score" Grid.Column="2" Margin="3,0,0,0" />
-                <!--<my:AdControl AdUnitId="Image480_80" ApplicationId="test_client" Grid.Column="1" Height="80" HorizontalAlignment="Center" Name="adControl1" VerticalAlignment="Center"  Width="480" />-->
+                <my:AdControl AdUnitId="10041942" ApplicationId="5b4ff106-b406-49f3-a67f-bd6443cb5833" Grid.Column="1" Height="80" HorizontalAlignment="Center" Name="adControl1" VerticalAlignment="Center"  Width="480" />
             </Grid>
         </Grid>
     </Grid>
