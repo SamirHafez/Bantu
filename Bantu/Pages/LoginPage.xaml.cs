@@ -27,8 +27,7 @@ namespace Bantu.Pages
 
 			if (swtStore.SimpleWebToken == null)
 			{
-				this.SignInControl.RequestSimpleWebTokenResponseCompleted +=
-					(s, e) =>
+				this.SignInControl.RequestSimpleWebTokenResponseCompleted += (s, e) =>
 					{
 						swtStore = Application.Current.Resources["swtStore"] as SimpleWebTokenStore;
 						RetrieveOrCreatePlayer(swtStore);
@@ -62,7 +61,6 @@ namespace Bantu.Pages
 			SystemTray.ProgressIndicator.IsVisible = true;
 
 			Context.GetPlayerByIdentifier(nameIdentifier, player =>
-			{
 				Dispatcher.BeginInvoke(delegate
 				{
 					var settings = IsolatedStorageSettings.ApplicationSettings;
@@ -70,12 +68,10 @@ namespace Bantu.Pages
 					SystemTray.ProgressIndicator.IsVisible = false;
 
 					NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
-				});
-			}, () =>
-			{
+				})
+			, () =>
 				Context.CreatePlayer(name, nameIdentifier, player =>
-				{
-					Dispatcher.BeginInvoke(delegate
+					Dispatcher.BeginInvoke(() =>
 					{
 						var settings = IsolatedStorageSettings.ApplicationSettings;
 						settings["player"] = new PlayerVM(player);
@@ -83,10 +79,9 @@ namespace Bantu.Pages
 
 						MainPage.NewPlayer = true;
 						NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
-					});
-				}, () =>
-				{
-                    Dispatcher.BeginInvoke(delegate 
+					})
+				, () =>
+                    Dispatcher.BeginInvoke(() =>
                     {
                         MessageBox.Show("The declared username is already registered with Bantu (or it contains illegal characters). Consider choosing a new name.");
                         var swtStore = Application.Current.Resources["swtStore"] as SimpleWebTokenStore;
@@ -99,9 +94,9 @@ namespace Bantu.Pages
 
 						tbUsername.Focus();
 						tbUsername.SelectAll();
-                    });
-				});
-			});
+                    })
+				)
+			);
 		}
 	}
 }

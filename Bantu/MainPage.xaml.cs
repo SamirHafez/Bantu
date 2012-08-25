@@ -84,16 +84,15 @@ namespace Bantu
 		private void ReceivedToast(string gameId)
 		{
 			Context.GetGame(gameId, game =>
-			{
-				Dispatcher.BeginInvoke(delegate
+				Dispatcher.BeginInvoke(() =>
 				{
 					var gameVm = Games.First(g => g.Id == gameId);
 					gameVm.Update(game);
 
 					var settings = IsolatedStorageSettings.ApplicationSettings;
 					settings["games"] = Games.ToArray();
-				});
-			}, () =>
+				})
+			, () =>
 			{
 			});
 		}
@@ -127,29 +126,25 @@ namespace Bantu
 		public void CreateGame(Object sender, EventArgs e)
 		{
 			if (Games.Count >= 10)
-			{
 				MessageBox.Show("You are not allowed to play in more than ten games simultaneously. Please finish some games before starting new ones.");
-			}
 
 			SystemTray.ProgressIndicator.IsVisible = true;
 			Context.CreateGame(Player.Name, game =>
-			{
-				Dispatcher.BeginInvoke(delegate()
+				Dispatcher.BeginInvoke(() =>
 				{
 					var settings = IsolatedStorageSettings.ApplicationSettings;
 					Games.Add(new GameVM(game));
 
 					settings["games"] = Games.ToArray();
 					SystemTray.ProgressIndicator.IsVisible = false;
-				});
-			}, () =>
-			{
-				Dispatcher.BeginInvoke(delegate()
+				})
+			, () =>
+				Dispatcher.BeginInvoke(() =>
 				{
 					SystemTray.ProgressIndicator.IsVisible = false;
 					MessageBox.Show("Failed to create game. Please try again.");
-				});
-			});
+				})
+			);
 		}
 
         public void Refresh(object sender, EventArgs args) 
@@ -163,13 +158,12 @@ namespace Bantu
             SystemTray.ProgressIndicator.IsVisible = true;
 
             Context.GetPlayerByName(Player.Name, player =>
-            {
-                Dispatcher.BeginInvoke(delegate
+                Dispatcher.BeginInvoke(() =>
                 {
                     Player.Score = player.Score;
                     SystemTray.ProgressIndicator.IsVisible = false;
-                });
-            }, () =>
+                })
+            , () =>
             {
             });
         }
@@ -179,8 +173,7 @@ namespace Bantu
 			SystemTray.ProgressIndicator.IsVisible = true;
 
 			Context.PlayerGames(Player.Name, games =>
-			{
-				Dispatcher.BeginInvoke(delegate
+				Dispatcher.BeginInvoke(() =>
 				{
 					Games.Clear();
 					foreach (var game in games.Select(g => new GameVM(g)))
@@ -190,8 +183,8 @@ namespace Bantu
                     settings["games"] = Games.ToArray();
 
                     SystemTray.ProgressIndicator.IsVisible = false;
-				});
-			}, () =>
+				})
+			, () =>
 			{
 			});
 		}
@@ -199,14 +192,11 @@ namespace Bantu
 		public void JoinRandom(Object sender, EventArgs e)
 		{
 			if (Games.Count >= 10)
-			{
 				MessageBox.Show("You are not allowed to play in more than ten games simultaneously. Please finish some games before starting new ones.");
-			}
 
 			SystemTray.ProgressIndicator.IsVisible = true;
 			Context.JoinGame(Player.Name, game =>
-			{
-				Dispatcher.BeginInvoke(delegate()
+				Dispatcher.BeginInvoke(() =>
 				{
 					var settings = IsolatedStorageSettings.ApplicationSettings;
 					var gameVm = new GameVM(game);
@@ -215,15 +205,14 @@ namespace Bantu
 					settings["games"] = Games.ToArray();
 					SystemTray.ProgressIndicator.IsVisible = false;
 					OpenGame(gameVm);
-				});
-			}, () =>
-			{
-				Dispatcher.BeginInvoke(delegate()
+				})
+			, () =>
+				Dispatcher.BeginInvoke(() =>
 				{
 					SystemTray.ProgressIndicator.IsVisible = false;
 					MessageBox.Show("Failed to join a challenge. Please try again.");
-				});
-			});
+				})
+			);
 		}
 	}
 }
