@@ -1,41 +1,29 @@
-﻿using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace Bantu.ViewModel
 {
-	public class CupVM : INotifyPropertyChanged, INotifyPropertyChanging
-	{
-		public int Index { get; set; }
+    public class CupVM : INotifyPropertyChanged, INotifyPropertyChanging
+    {
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
-		private int _stones;
-		public int Stones
-		{
-			get { return _stones; }
-			set
-			{
-				if (PropertyChanging != null)
-					PropertyChanging(this, new PropertyChangingEventArgs("Stones"));
-				_stones = value;
-				if (PropertyChanged != null)
-					PropertyChanged(this, new PropertyChangedEventArgs("Stones"));
-			}
-		}
+        public event PropertyChangingEventHandler PropertyChanging = delegate { };
 
-		public bool IsScore { get; set; }
+        public int Index { get; set; }
 
-		public PlayerVM Owner { get; set; }
+        private int _stones;
+        public int Stones
+        {
+            get { return _stones; }
+            set
+            {
+                PropertyChanging(this, new PropertyChangingEventArgs("Stones"));
+                _stones = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("Stones"));
+            }
+        }
 
-		public event PropertyChangedEventHandler PropertyChanged;
+        public bool IsScore { get; set; }
 
-		public event PropertyChangingEventHandler PropertyChanging;
-	}
+        public PlayerVM Owner { get; set; }
+    }
 }

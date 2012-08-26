@@ -1,14 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Bantu.Notification;
 using Bantu.ViewModel;
@@ -36,7 +27,7 @@ namespace Bantu
 				tsNotification.IsChecked = (settings["settings"] as SettingsVM).Notifications;
 		}
 
-        public void EnableNotifications(object sender, EventArgs args) 
+        public void EnableNotifications(object sender, RoutedEventArgs routedEventArgs) 
         {
 			SettingsVM.Notifications = tsNotification.IsChecked.Value;
 
@@ -44,7 +35,7 @@ namespace Bantu
 			settings["settings"] = SettingsVM;
         }
 
-        public void DisableNotifications(object sender, EventArgs args)
+        public void DisableNotifications(object sender, RoutedEventArgs routedEventArgs)
         {
 			Manager.DisableNotification();
 			SettingsVM.Notifications = tsNotification.IsChecked.Value;

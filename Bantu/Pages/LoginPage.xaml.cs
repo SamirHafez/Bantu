@@ -8,6 +8,7 @@ using Bantu.TableStorage;
 using System.IO.IsolatedStorage;
 using Bantu.ViewModel;
 using Microsoft.Phone.Shell;
+using GestureEventArgs = System.Windows.Input.GestureEventArgs;
 
 namespace Bantu.Pages
 {
@@ -38,7 +39,7 @@ namespace Bantu.Pages
 				RetrieveOrCreatePlayer(swtStore);
 		}
 
-        public void AlternativeName(object sender, EventArgs args) 
+        public void AlternativeName(object sender, GestureEventArgs gestureEventArgs) 
         {
             var swtStore = Application.Current.Resources["swtStore"] as SimpleWebTokenStore;
 

@@ -12,6 +12,7 @@ using Bantu.TableStorage;
 using System.Windows.Controls;
 using Microsoft.Phone.Net.NetworkInformation;
 using Bantu.Notification;
+using GestureEventArgs = System.Windows.Input.GestureEventArgs;
 
 namespace Bantu
 {
@@ -97,7 +98,7 @@ namespace Bantu
 			});
 		}
 
-		public void GoToGame(Object sender, EventArgs e)
+		public void GoToGame(Object sender, GestureEventArgs gestureEventArgs)
 		{
 			var game = Games.First(g => g.Id == (string)(((Button)sender).Tag));
 			OpenGame(game);

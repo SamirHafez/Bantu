@@ -5,9 +5,9 @@ using Bantu.ViewModel;
 using Bantu.Controls;
 using Microsoft.Phone.Shell;
 using Bantu.TableStorage;
-using System.Linq;
 using System.IO.IsolatedStorage;
 using Bantu.Notification;
+using GestureEventArgs = System.Windows.Input.GestureEventArgs;
 
 namespace Bantu
 {
@@ -35,7 +35,7 @@ namespace Bantu
                 {
                     Game = new GameVM(game);
 
-                    if (Game.Host.Name == Player.Name)
+                    if (Game.Host == Player)
                         BindHost();
                     else
                         BindClient();
@@ -46,7 +46,7 @@ namespace Bantu
             , () => { });
         }
 
-        public void Play(object sender, EventArgs args)
+        public void Play(object sender, GestureEventArgs gestureEventArgs)
         {
             var cup = ((CupControl)sender).DataContext as CupVM;
 
@@ -63,7 +63,7 @@ namespace Bantu
                         case GameState.Finished:
                             var winner = Game.Winner;
                             var score = Game.Score(winner).Stones;
-                            if (winner.Name == Player.Name)
+                            if (winner == Player)
                             {
                                 MessageBox.Show("Congratulations, you won! You have earned " + score + " points.");
                                 Context.ScorePlayer(winner.Name, score, player =>
