@@ -2,7 +2,7 @@
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Tasks;
 
-namespace Bantu
+namespace Bantu.Pages
 {
 	public partial class About : PhoneApplicationPage
 	{

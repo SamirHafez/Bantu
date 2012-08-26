@@ -9,7 +9,7 @@ using System.IO.IsolatedStorage;
 using Bantu.Notification;
 using GestureEventArgs = System.Windows.Input.GestureEventArgs;
 
-namespace Bantu
+namespace Bantu.Pages
 {
     public partial class BantumiGamePage : PhoneApplicationPage
     {

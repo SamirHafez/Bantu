@@ -1,5 +1,5 @@
 ﻿<phone:PhoneApplicationPage 
-    x:Class="Bantu.BantumiGamePage"
+    x:Class="Bantu.Pages.BantumiGamePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
@@ -7,8 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Controls="clr-namespace:Bantu.Controls"
-    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" 
-    xmlns:toolkitPrimitives="clr-namespace:Microsoft.Phone.Controls.Primitives;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -21,7 +20,7 @@
     </shell:SystemTray.ProgressIndicator>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -35,11 +34,6 @@
         <!--ContentPanel - place additional content here-->
 
         <Grid Grid.Row="1" Margin="12,0,12,0">
-            <!--<Grid.ColumnDefinitions>
-                <ColumnDefinition Width="99"/>
-                <ColumnDefinition />
-                <ColumnDefinition Width="99"/>
-            </Grid.ColumnDefinitions>-->
             <Grid.RowDefinitions>
                 <RowDefinition Height="99"/>
                 <RowDefinition />
@@ -85,7 +79,8 @@
                 </Grid.ColumnDefinitions>
                 <Controls:CupControl x:Name="ccP2Score" Margin="0,0,3,0" />
                 <Controls:CupControl x:Name="ccP1Score" Grid.Column="2" Margin="3,0,0,0" />
-                <my:AdControl AdUnitId="10041942" ApplicationId="5b4ff106-b406-49f3-a67f-bd6443cb5833" Grid.Column="1" Height="80" HorizontalAlignment="Center" Name="adControl1" VerticalAlignment="Center"  Width="480" />
+                <my:AdControl AdUnitId="10041942" ApplicationId="5b4ff106-b406-49f3-a67f-bd6443cb5833" Grid.Column="1" Height="80" HorizontalAlignment="Center"
+                              VerticalAlignment="Center"  Width="480" />
             </Grid>
         </Grid>
     </Grid>

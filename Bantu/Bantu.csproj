@@ -69,7 +69,7 @@
     <Reference Include="mscorlib.extensions" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="About.xaml.cs">
+    <Compile Include="Pages\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
@@ -93,13 +93,13 @@
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="TableStorage\Context.cs" />
-    <Compile Include="BantumiGamePage.xaml.cs">
+    <Compile Include="Pages\BantumiGamePage.xaml.cs">
       <DependentUpon>BantumiGamePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\CupControl.xaml.cs">
       <DependentUpon>CupControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Help.xaml.cs">
+    <Compile Include="Pages\Help.xaml.cs">
       <DependentUpon>Help.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainPage.xaml.cs">
@@ -116,11 +116,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Page Include="About.xaml">
+    <Page Include="Pages\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="BantumiGamePage.xaml">
+    <Page Include="Pages\BantumiGamePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -128,7 +128,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Help.xaml">
+    <Page Include="Pages\Help.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -204,10 +204,6 @@
     <Content Include="Background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
-    <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
-    <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />
-    <Content Include="Toolkit.Content\ApplicationBar.Select.png" />
     <Content Include="Icons\appbar.add.rest.png" />
     <Content Include="Icons\appbar.favs.rest.png" />
     <Content Include="Icons\appbar.transport.play.rest.png" />

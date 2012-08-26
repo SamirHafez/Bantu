@@ -7,9 +7,7 @@
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" 
-    xmlns:toolkitPrimitives="clr-namespace:Microsoft.Phone.Controls.Primitives;assembly=Microsoft.Phone.Controls.Toolkit"
-    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="696" 
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="696" 
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
@@ -19,9 +17,9 @@
         <shell:ProgressIndicator IsIndeterminate="true" IsVisible="False"></shell:ProgressIndicator>
     </shell:SystemTray.ProgressIndicator>
 
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid Background="Transparent">
         <controls:Panorama Title="bantu">
-            <controls:PanoramaItem Name="userPi">
+            <controls:PanoramaItem Name="userPi" x:FieldModifier="private">
                 <Grid Margin="12,0,0,12">
                     <Grid.RowDefinitions>
                         <RowDefinition Height=".2*"/>
@@ -34,11 +32,6 @@
             </controls:PanoramaItem>
 
             <controls:PanoramaItem Header="active games">
-                <controls:PanoramaItem.Resources>
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    </Style>
-                </controls:PanoramaItem.Resources>
                 <ListBox Margin="12,0,0,0" ItemsSource="{Binding Games}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>

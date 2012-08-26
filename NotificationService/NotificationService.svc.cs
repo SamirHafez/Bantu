@@ -71,7 +71,7 @@ namespace NotificationService
                                     "<wp:Toast>" +
                                     "<wp:Text1>{0}</wp:Text1>" +
                                     "<wp:Text2>{1}</wp:Text2>" +
-                                    "<wp:Param>/BantumiGamePage.xaml?game={2}</wp:Param>" +
+                                    "<wp:Param>/Pages/BantumiGamePage.xaml?game={2}</wp:Param>" +
                                     "</wp:Toast>" +
                                     "</wp:Notification>";
 

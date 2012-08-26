@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using System.Windows.Input;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.IO.IsolatedStorage;
@@ -47,7 +45,7 @@ namespace Bantu
 
 			if (settings.Contains("player"))
 			{
-				var player = settings["player"] as PlayerVM;
+                var player = (PlayerVM)settings["player"];
 				Player.Name = player.Name;
 				Player.Score = player.Score;
 				Player.Identifier = player.Identifier;
@@ -63,7 +61,7 @@ namespace Bantu
 				NavigationService.RemoveBackEntry();
 
 			if (settings.Contains("settings"))
-				Settings.Notifications = (settings["settings"] as SettingsVM).Notifications;
+				Settings.Notifications = ((SettingsVM) settings["settings"]).Notifications;
 
 			if (Settings.Notifications)
 				Manager.EnableNotifications(Player.Name);
@@ -73,7 +71,7 @@ namespace Bantu
 				NewPlayer = false;
                 var result = MessageBox.Show("Since you are a new player would you like to learn how to play?", "NEW PLAYER", MessageBoxButton.OKCancel);
                 if (result == MessageBoxResult.OK)
-                    NavigationService.Navigate(new Uri("/Help.xaml", UriKind.Relative));
+                    NavigationService.Navigate(new Uri("/Pages/Help.xaml", UriKind.Relative));
             }
             else
             {
@@ -106,22 +104,22 @@ namespace Bantu
 
 		public void HelpPage(Object sender, EventArgs e)
 		{
-			NavigationService.Navigate(new Uri("/Help.xaml", UriKind.Relative));
+			NavigationService.Navigate(new Uri("/Pages/Help.xaml", UriKind.Relative));
 		}
 
 		public void AboutPage(Object sender, EventArgs e)
 		{
-			NavigationService.Navigate(new Uri("/About.xaml", UriKind.Relative));
+			NavigationService.Navigate(new Uri("/Pages/About.xaml", UriKind.Relative));
 		}
 
 		public void SettingsPage(Object sender, EventArgs e)
 		{
-			NavigationService.Navigate(new Uri("/Settings.xaml", UriKind.Relative));
+			NavigationService.Navigate(new Uri("/Pages/Settings.xaml", UriKind.Relative));
 		}
 
 		private void OpenGame(GameVM game)
 		{
-			NavigationService.Navigate(new Uri("/BantumiGamePage.xaml?game=" + game.Id, UriKind.Relative));
+			NavigationService.Navigate(new Uri("/Pages/BantumiGamePage.xaml?game=" + game.Id, UriKind.Relative));
 		}
 
 		public void CreateGame(Object sender, EventArgs e)

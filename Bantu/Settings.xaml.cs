@@ -24,7 +24,7 @@ namespace Bantu
 			var settings = IsolatedStorageSettings.ApplicationSettings;
 
 			if (settings.Contains("settings"))
-				tsNotification.IsChecked = (settings["settings"] as SettingsVM).Notifications;
+				tsNotification.IsChecked = ((SettingsVM) settings["settings"]).Notifications;
 		}
 
         public void EnableNotifications(object sender, RoutedEventArgs routedEventArgs) 

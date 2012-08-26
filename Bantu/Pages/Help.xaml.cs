@@ -1,6 +1,6 @@
 ﻿using Microsoft.Phone.Controls;
 
-namespace Bantu
+namespace Bantu.Pages
 {
 	public partial class Help : PhoneApplicationPage
 	{

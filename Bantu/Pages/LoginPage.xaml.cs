@@ -16,7 +16,7 @@ namespace Bantu.Pages
 	{
 		public LoginPage()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 
 		public new void Loaded(object sender, EventArgs args)
@@ -30,7 +30,7 @@ namespace Bantu.Pages
 			{
 				this.SignInControl.RequestSimpleWebTokenResponseCompleted += (s, e) =>
 					{
-						swtStore = Application.Current.Resources["swtStore"] as SimpleWebTokenStore;
+                        swtStore = (SimpleWebTokenStore)Application.Current.Resources["swtStore"];
 						RetrieveOrCreatePlayer(swtStore);
 					};
 				this.SignInControl.GetSimpleWebToken();
@@ -41,7 +41,7 @@ namespace Bantu.Pages
 
         public void AlternativeName(object sender, GestureEventArgs gestureEventArgs) 
         {
-            var swtStore = Application.Current.Resources["swtStore"] as SimpleWebTokenStore;
+            var swtStore = (SimpleWebTokenStore)Application.Current.Resources["swtStore"];
 
             var name = tbUsername.Text;
             var nameIdentifier = swtStore.SimpleWebToken.NameIdentifier;
@@ -85,7 +85,7 @@ namespace Bantu.Pages
                     Dispatcher.BeginInvoke(() =>
                     {
                         MessageBox.Show("The declared username is already registered with Bantu (or it contains illegal characters). Consider choosing a new name.");
-                        var swtStore = Application.Current.Resources["swtStore"] as SimpleWebTokenStore;
+                        var swtStore = (SimpleWebTokenStore)Application.Current.Resources["swtStore"];
 
                         tbUsername.Text = swtStore.SimpleWebToken.Claims[ClaimTypes.Name];
 
