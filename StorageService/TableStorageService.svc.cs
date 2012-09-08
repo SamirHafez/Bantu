@@ -104,7 +104,7 @@ namespace StorageService
 		public Game JoinGame(string username, string gameId = null)
 		{
 			var games = (from g in _context.Game
-						 where g.Client == string.Empty
+						 where g.Client == string.Empty && g.Host != username
 						 select g);
 
 			if (gameId != null)
